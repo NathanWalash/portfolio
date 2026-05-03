@@ -123,10 +123,27 @@ Current quality checks:
 ```bash
 npm run lint
 npm run typecheck
+npm test
 npm run build
 ```
 
-`npm test` will be added in the CI milestone with a lightweight Vitest setup.
+For watch mode while developing:
+
+```bash
+npm run test:watch
+```
+
+## Continuous Integration
+
+GitHub Actions runs the same quality checks on pushes and pull requests:
+
+```bash
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run build
+```
 
 ## Documentation
 

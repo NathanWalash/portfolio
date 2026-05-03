@@ -110,7 +110,9 @@ function PlaceholderPage({ title }: { title: string }) {
           <div className="mb-4 flex size-10 items-center justify-center rounded-lg border border-border">
             <Route className="size-5" aria-hidden="true" />
           </div>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle aria-level={1} role="heading">
+            {title}
+          </CardTitle>
           <CardDescription>
             This route is wired for the next implementation milestone.
           </CardDescription>
