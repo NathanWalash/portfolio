@@ -9,8 +9,8 @@ import {
 import { motion } from "motion/react"
 import { Link } from "react-router-dom"
 
+import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
-import { ProjectVisual } from "@/components/projects/ProjectVisual"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -19,7 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getFeaturedProjects, type Project } from "@/data/projects"
+import { getFeaturedProjects } from "@/data/projects"
 import { profile, type SocialLink } from "@/data/profile"
 import { skills } from "@/data/skills"
 import { cn } from "@/lib/utils"
@@ -160,7 +160,7 @@ export function Home() {
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {featuredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} headingLevel={3} />
             ))}
           </div>
         </div>
@@ -198,38 +198,6 @@ export function Home() {
         </div>
       </section>
     </main>
-  )
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <Card className="rounded-lg">
-      <ProjectVisual project={project} className="border-b border-border" />
-      <CardHeader>
-        <Badge variant="outline" className="w-fit">
-          {project.category}
-        </Badge>
-        <CardTitle aria-level={3} role="heading">
-          {project.title}
-        </CardTitle>
-        <CardDescription>{project.description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="mb-5 flex flex-wrap gap-2">
-          {project.stack.map((item) => (
-            <Badge key={item} variant="secondary">
-              {item}
-            </Badge>
-          ))}
-        </div>
-        <Button asChild variant="outline">
-          <Link to={`/projects/${project.slug}`}>
-            Details
-            <ArrowRight aria-hidden="true" />
-          </Link>
-        </Button>
-      </CardContent>
-    </Card>
   )
 }
 

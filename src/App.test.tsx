@@ -1,4 +1,5 @@
 import { render, screen, within } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router-dom"
 import { describe, expect, it } from "vitest"
 
@@ -56,5 +57,24 @@ describe("App routing", () => {
       "href",
       "https://example.com",
     )
+  })
+
+  it("filters the projects page by category", async () => {
+    const user = userEvent.setup()
+
+    renderRoute("/projects")
+
+    expect(
+      screen.getByRole("heading", { name: /portfolio website/i }),
+    ).toBeInTheDocument()
+
+    await user.click(screen.getByRole("tab", { name: /ui/i }))
+
+    expect(
+      screen.getByRole("heading", { name: /component practice lab/i }),
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByRole("heading", { name: /portfolio website/i }),
+    ).not.toBeInTheDocument()
   })
 })
