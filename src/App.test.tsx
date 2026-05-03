@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import { describe, expect, it } from "vitest"
 
@@ -13,16 +13,29 @@ function renderRoute(route: string) {
 }
 
 describe("App routing", () => {
-  it("renders the portfolio foundation on the home route", () => {
+  it("renders the app shell and home route", () => {
     renderRoute("/")
 
     expect(
       screen.getByRole("heading", { name: /developer portfolio/i }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /projects/i })).toHaveAttribute(
+
+    const navigation = within(
+      screen.getByRole("navigation", { name: /main navigation/i }),
+    )
+    expect(navigation.getByRole("link", { name: /home/i })).toHaveAttribute(
+      "href",
+      "/",
+    )
+    expect(navigation.getByRole("link", { name: /about/i })).toHaveAttribute(
+      "href",
+      "/about",
+    )
+    expect(navigation.getByRole("link", { name: /projects/i })).toHaveAttribute(
       "href",
       "/projects",
     )
+    expect(screen.getByRole("contentinfo")).toBeInTheDocument()
   })
 
   it("renders the project detail placeholder route", () => {
