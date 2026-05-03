@@ -8,6 +8,10 @@ export type Project = {
   description: string
   category: ProjectCategory
   stack: string[]
+  image: {
+    src: string
+    alt: string
+  }
   github?: string
   live?: string
   featured?: boolean
@@ -28,7 +32,11 @@ export const projects: Project[] = [
       "A custom developer portfolio built with React, TypeScript, Tailwind CSS, shadcn/ui, and Motion.",
     category: "Frontend",
     stack: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Motion"],
-    github: "https://github.com/",
+    image: {
+      src: "",
+      alt: "Portfolio website screenshot",
+    },
+    github: "https://github.com/NathanWalash",
     live: "https://example.com",
     featured: true,
     overview:
@@ -65,7 +73,11 @@ export const projects: Project[] = [
       "A collection of focused UI exercises for forms, cards, states, and responsive layout patterns.",
     category: "UI",
     stack: ["React", "TypeScript", "Tailwind CSS"],
-    github: "https://github.com/",
+    image: {
+      src: "",
+      alt: "Component practice lab screenshot",
+    },
+    github: "https://github.com/NathanWalash",
     featured: true,
     overview:
       "A practice space for improving component composition, layout decisions, and interface polish.",
@@ -98,7 +110,11 @@ export const projects: Project[] = [
       "A small notes-style app concept for practicing API flows, state boundaries, and frontend data handling.",
     category: "Full-stack",
     stack: ["React", "TypeScript", "Node.js", "APIs"],
-    github: "https://github.com/",
+    image: {
+      src: "",
+      alt: "API notes tool screenshot",
+    },
+    github: "https://github.com/NathanWalash",
     overview:
       "A planned project for demonstrating how a frontend can organize create, read, update, and delete flows.",
     problem:

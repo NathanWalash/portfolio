@@ -1,6 +1,7 @@
 import { ArrowLeft, ExternalLink } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
 
+import { ProjectVisual } from "@/components/projects/ProjectVisual"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
@@ -54,6 +55,11 @@ export function ProjectDetail() {
           ) : null}
         </div>
       </div>
+
+      <ProjectVisual
+        project={project}
+        className="mt-12 rounded-lg border border-border"
+      />
 
       <div className="mt-10 flex flex-wrap gap-2">
         {project.stack.map((item) => (

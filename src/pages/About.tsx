@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { profile } from "@/data/profile"
 import { skills } from "@/data/skills"
 
 const focusAreas = ["Frontend craft", "Reusable components", "Clean delivery"]
@@ -10,11 +11,11 @@ export function About() {
       <div className="max-w-3xl">
         <p className="text-sm font-medium text-muted-foreground">About</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-normal sm:text-5xl">
-          Building a portfolio around clear projects and practical progress.
+          About {profile.name}.
         </h1>
         <p className="mt-6 text-lg leading-8 text-muted-foreground">
-          A concise profile for current focus, developer values, learning progress,
-          and the kind of work that makes the best use of careful frontend craft.
+          {profile.summary} I am shaping this portfolio around practical projects,
+          steady learning, and frontend craft.
         </p>
       </div>
 

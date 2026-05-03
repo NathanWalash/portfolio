@@ -1,5 +1,7 @@
-import { Code2, Mail } from "lucide-react"
+import { Code2, ExternalLink, Mail } from "lucide-react"
 import { Link } from "react-router-dom"
+
+import { profile, type SocialLink } from "@/data/profile"
 
 export function Footer() {
   return (
@@ -10,32 +12,56 @@ export function Footer() {
             to="/"
             className="font-medium text-foreground transition-colors hover:text-muted-foreground"
           >
-            Developer Portfolio
+            {profile.name}
           </Link>
           <p className="mt-2 max-w-md">
-            Clean React portfolio for projects, background, and contact.
+            {profile.summary}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-          <a
-            href="https://github.com/"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg px-2 py-1 transition-colors hover:bg-background hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-          >
-            <Code2 className="size-4" aria-hidden="true" />
-            GitHub
-          </a>
-          <a
-            href="mailto:hello@example.com"
-            className="inline-flex items-center gap-2 rounded-lg px-2 py-1 transition-colors hover:bg-background hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
-          >
-            <Mail className="size-4" aria-hidden="true" />
-            Email
-          </a>
+          <FooterSocial icon="code" social={profile.socials.github} />
+          <FooterSocial icon="external" social={profile.socials.linkedin} />
+          <FooterSocial icon="mail" social={profile.socials.email} />
         </div>
       </div>
     </footer>
+  )
+}
+
+function FooterSocial({
+  icon,
+  social,
+}: {
+  icon: "code" | "external" | "mail"
+  social: SocialLink
+}) {
+  const Icon = icon === "code" ? Code2 : icon === "mail" ? Mail : ExternalLink
+  const className =
+    "inline-flex items-center gap-2 rounded-lg px-2 py-1 transition-colors focus-visible:ring-3 focus-visible:ring-ring/50"
+  const content = (
+    <>
+      <Icon className="size-4" aria-hidden="true" />
+      {social.label}
+    </>
+  )
+
+  if (!social.href) {
+    return (
+      <span aria-disabled="true" className={`${className} text-muted-foreground`}>
+        {content}
+      </span>
+    )
+  }
+
+  return (
+    <a
+      href={social.href}
+      target={social.external ? "_blank" : undefined}
+      rel={social.external ? "noreferrer" : undefined}
+      className={`${className} hover:bg-background hover:text-foreground`}
+    >
+      {content}
+    </a>
   )
 }

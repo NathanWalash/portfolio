@@ -2,6 +2,7 @@ import { Code2, Mail } from "lucide-react"
 import { Link, NavLink } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
+import { profile } from "@/data/profile"
 import { cn } from "@/lib/utils"
 
 const navLinks = [
@@ -22,7 +23,7 @@ export function Navbar() {
           <span className="grid size-8 place-items-center rounded-lg border border-border bg-card">
             <Code2 className="size-4" aria-hidden="true" />
           </span>
-          <span>Developer Portfolio</span>
+          <span>{profile.name}</span>
         </Link>
 
         <nav
@@ -48,7 +49,7 @@ export function Navbar() {
 
         <div className="ml-auto flex items-center gap-2 sm:ml-0">
           <Button asChild variant="outline" size="sm">
-            <a href="https://github.com/" target="_blank" rel="noreferrer">
+            <a href={profile.socials.github.href} target="_blank" rel="noreferrer">
               <Code2 aria-hidden="true" />
               GitHub
             </a>

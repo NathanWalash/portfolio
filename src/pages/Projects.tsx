@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
+import { ProjectVisual } from "@/components/projects/ProjectVisual"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -29,6 +30,7 @@ export function Projects() {
       <div className="mt-10 grid gap-4 md:grid-cols-2">
         {projects.map((project) => (
           <Card key={project.slug} className="rounded-lg">
+            <ProjectVisual project={project} className="border-b border-border" />
             <CardHeader>
               <Badge variant="outline" className="w-fit">
                 {project.category}

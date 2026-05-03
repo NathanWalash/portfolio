@@ -17,7 +17,7 @@ describe("App routing", () => {
     renderRoute("/")
 
     expect(
-      screen.getByRole("heading", { name: /developer portfolio/i }),
+      screen.getByRole("heading", { level: 1, name: /nathan walsh/i }),
     ).toBeInTheDocument()
 
     const navigation = within(
@@ -36,6 +36,10 @@ describe("App routing", () => {
       "/projects",
     )
     expect(screen.getByRole("contentinfo")).toBeInTheDocument()
+    expect(screen.getAllByRole("link", { name: /github/i })[0]).toHaveAttribute(
+      "href",
+      "https://github.com/NathanWalash",
+    )
     expect(
       screen.getByRole("heading", { name: /portfolio website/i }),
     ).toBeInTheDocument()
