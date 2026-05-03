@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { projects } from "@/data/projects"
 
 export function Projects() {
   return (
@@ -26,27 +27,34 @@ export function Projects() {
       </div>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
-        <Card className="rounded-lg">
-          <CardHeader>
-            <Badge variant="outline" className="w-fit">
-              Frontend
-            </Badge>
-            <CardTitle aria-level={2} role="heading">
-              Portfolio Website
-            </CardTitle>
-            <CardDescription>
-              React, TypeScript, Tailwind CSS, shadcn/ui, and Motion.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline">
-              <Link to="/projects/portfolio-website">
-                Details
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+        {projects.map((project) => (
+          <Card key={project.slug} className="rounded-lg">
+            <CardHeader>
+              <Badge variant="outline" className="w-fit">
+                {project.category}
+              </Badge>
+              <CardTitle aria-level={2} role="heading">
+                {project.title}
+              </CardTitle>
+              <CardDescription>{project.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-5 flex flex-wrap gap-2">
+                {project.stack.map((item) => (
+                  <Badge key={item} variant="secondary">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+              <Button asChild variant="outline">
+                <Link to={`/projects/${project.slug}`}>
+                  Details
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </main>
   )

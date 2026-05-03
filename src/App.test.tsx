@@ -36,13 +36,21 @@ describe("App routing", () => {
       "/projects",
     )
     expect(screen.getByRole("contentinfo")).toBeInTheDocument()
+    expect(
+      screen.getByRole("heading", { name: /portfolio website/i }),
+    ).toBeInTheDocument()
   })
 
-  it("renders the project detail placeholder route", () => {
-    renderRoute("/projects/example-project")
+  it("renders a data-driven project detail route", () => {
+    renderRoute("/projects/portfolio-website")
 
     expect(
-      screen.getByRole("heading", { name: /project: example-project/i }),
+      screen.getByRole("heading", { name: /portfolio website/i }),
     ).toBeInTheDocument()
+    expect(screen.getByRole("heading", { name: /overview/i })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: /live demo/i })).toHaveAttribute(
+      "href",
+      "https://example.com",
+    )
   })
 })

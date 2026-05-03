@@ -4,16 +4,17 @@ import { Link } from "react-router-dom"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { getFeaturedProjects } from "@/data/projects"
+import { skills } from "@/data/skills"
 
-const stack = [
-  "Vite",
-  "React",
-  "TypeScript",
-  "Tailwind CSS",
-  "shadcn/ui",
-  "Motion",
-]
+const featuredProjects = getFeaturedProjects()
 
 export function Home() {
   return (
@@ -62,15 +63,69 @@ export function Home() {
         </motion.div>
 
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {stack.map((item) => (
-            <Card key={item} className="rounded-lg">
-              <CardHeader>
-                <Badge variant="secondary" className="w-fit">
-                  {item}
-                </Badge>
-              </CardHeader>
-            </Card>
-          ))}
+          {skills.flatMap((group) =>
+            group.items.slice(0, 2).map((item) => (
+              <Card key={`${group.category}-${item}`} className="rounded-lg">
+                <CardHeader>
+                  <Badge variant="secondary" className="w-fit">
+                    {item}
+                  </Badge>
+                </CardHeader>
+              </Card>
+            )),
+          )}
+        </div>
+      </section>
+
+      <section className="border-t border-border/80 px-6 py-16 sm:px-8">
+        <div className="mx-auto w-full max-w-6xl">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">
+                Featured Projects
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-normal">
+                Recent work to shape the first version.
+              </h2>
+            </div>
+            <Button asChild variant="outline">
+              <Link to="/projects">
+                View all
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {featuredProjects.map((project) => (
+              <Card key={project.slug} className="rounded-lg">
+                <CardHeader>
+                  <Badge variant="outline" className="w-fit">
+                    {project.category}
+                  </Badge>
+                  <CardTitle aria-level={3} role="heading">
+                    {project.title}
+                  </CardTitle>
+                  <CardDescription>{project.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="mb-5 flex flex-wrap gap-2">
+                    {project.stack.map((item) => (
+                      <Badge key={item} variant="secondary">
+                        {item}
+                      </Badge>
+                    ))}
+                  </div>
+                  <Button asChild variant="outline">
+                    <Link to={`/projects/${project.slug}`}>
+                      Details
+                      <ArrowRight aria-hidden="true" />
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
 

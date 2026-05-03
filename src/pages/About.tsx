@@ -1,4 +1,6 @@
 import { Badge } from "@/components/ui/badge"
+import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { skills } from "@/data/skills"
 
 const focusAreas = ["Frontend craft", "Reusable components", "Clean delivery"]
 
@@ -21,6 +23,25 @@ export function About() {
           <Badge key={area} variant="secondary">
             {area}
           </Badge>
+        ))}
+      </div>
+
+      <div className="mt-12 grid gap-4 md:grid-cols-3">
+        {skills.map((group) => (
+          <Card key={group.category} className="rounded-lg">
+            <CardHeader>
+              <CardTitle aria-level={2} role="heading">
+                {group.category}
+              </CardTitle>
+              <div className="flex flex-wrap gap-2 pt-3">
+                {group.items.map((item) => (
+                  <Badge key={item} variant="secondary">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+            </CardHeader>
+          </Card>
         ))}
       </div>
     </main>
