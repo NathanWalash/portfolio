@@ -24,7 +24,7 @@ export const profile = {
     },
     linkedin: {
       label: "LinkedIn",
-      href: "",
+      href: "https://www.linkedin.com/in/nathan-walsh1/",
       external: true,
     },
     email: {
