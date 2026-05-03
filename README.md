@@ -98,21 +98,35 @@ Suggested branch order:
 
 ## Local Setup
 
-This app has not been scaffolded yet. Once the Vite app is added, the expected local workflow will be:
+Requires Node.js `22.12+`.
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Run the development server:
+
+```bash
 npm run dev
 ```
 
-Expected quality checks after setup:
+Open the local URL printed by Vite, usually:
+
+```txt
+http://localhost:5173/
+```
+
+Current quality checks:
 
 ```bash
 npm run lint
 npm run typecheck
-npm test
 npm run build
 ```
+
+`npm test` will be added in the CI milestone with a lightweight Vitest setup.
 
 ## Documentation
 
