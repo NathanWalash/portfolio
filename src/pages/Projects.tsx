@@ -1,19 +1,21 @@
-import { ArrowRight } from "lucide-react"
-import { Link } from "react-router-dom"
+import { useState } from "react"
 
-import { ProjectVisual } from "@/components/projects/ProjectVisual"
+import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { projects } from "@/data/projects"
+  projectCategories,
+  projects,
+} from "@/data/projects"
+
+const filterOptions = ["All", ...projectCategories] as const
+
+type ProjectFilter = (typeof filterOptions)[number]
 
 export function Projects() {
+  const [activeFilter, setActiveFilter] = useState<ProjectFilter>("All")
+  const filteredProjects = getFilteredProjects(activeFilter)
+
   return (
     <main className="mx-auto min-h-[calc(100svh-4rem)] w-full max-w-6xl px-6 py-16 sm:px-8">
       <div className="max-w-3xl">
@@ -27,37 +29,38 @@ export function Projects() {
         </p>
       </div>
 
+      <div className="mt-10 flex flex-col gap-4 border-y border-border/80 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <Tabs
+          value={activeFilter}
+          onValueChange={(value) => setActiveFilter(value as ProjectFilter)}
+        >
+          <TabsList className="h-auto flex-wrap justify-start">
+            {filterOptions.map((option) => (
+              <TabsTrigger key={option} value={option} className="h-8 px-3">
+                {option}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+
+        <Badge variant="secondary" className="w-fit">
+          {filteredProjects.length} of {projects.length} shown
+        </Badge>
+      </div>
+
       <div className="mt-10 grid gap-4 md:grid-cols-2">
-        {projects.map((project) => (
-          <Card key={project.slug} className="rounded-lg">
-            <ProjectVisual project={project} className="border-b border-border" />
-            <CardHeader>
-              <Badge variant="outline" className="w-fit">
-                {project.category}
-              </Badge>
-              <CardTitle aria-level={2} role="heading">
-                {project.title}
-              </CardTitle>
-              <CardDescription>{project.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-5 flex flex-wrap gap-2">
-                {project.stack.map((item) => (
-                  <Badge key={item} variant="secondary">
-                    {item}
-                  </Badge>
-                ))}
-              </div>
-              <Button asChild variant="outline">
-                <Link to={`/projects/${project.slug}`}>
-                  Details
-                  <ArrowRight aria-hidden="true" />
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+        {filteredProjects.map((project) => (
+          <ProjectCard key={project.slug} project={project} />
         ))}
       </div>
     </main>
   )
+}
+
+function getFilteredProjects(filter: ProjectFilter) {
+  if (filter === "All") {
+    return projects
+  }
+
+  return projects.filter((project) => project.category === filter)
 }
