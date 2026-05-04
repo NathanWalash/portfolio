@@ -1,0 +1,17 @@
+{
+  "name": "Nathan Walsh Portfolio",
+  "short_name": "Nathan Walsh",
+  "description": "Full-stack developer and software engineering portfolio for Nathan Walsh.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

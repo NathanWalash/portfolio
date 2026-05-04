@@ -1,6 +1,15 @@
 import { ArrowLeft, Code2, ExternalLink } from "lucide-react"
+import { motion } from "motion/react"
 import { Link, useParams } from "react-router-dom"
 
+import {
+  Reveal,
+} from "@/components/animation/Reveal"
+import {
+  liftHover,
+  staggerContainer,
+  staggerItem,
+} from "@/components/animation/motionPresets"
 import { ProjectVisual } from "@/components/projects/ProjectVisual"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -42,7 +51,7 @@ export function ProjectDetail() {
       </Button>
 
       <div className="mt-8 grid gap-8 sm:mt-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
-        <div>
+        <Reveal>
           <p className="text-sm font-medium text-muted-foreground">
             {project.category} case study
           </p>
@@ -71,49 +80,67 @@ export function ProjectDetail() {
               </Button>
             ) : null}
           </div>
-        </div>
+        </Reveal>
 
-        <Card className="rounded-lg">
-          <CardHeader>
-            <Badge variant="outline" className="w-fit">
-              {project.category}
-            </Badge>
-            <CardTitle aria-level={2} role="heading">
-              At a glance
-            </CardTitle>
-            <CardDescription>
-              Key project metadata and technology choices.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {project.stack.map((item) => (
-                <Badge key={item} variant="secondary">
-                  {item}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.42, ease: "easeOut", delay: 0.08 }}
+          whileHover={liftHover}
+        >
+          <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+            <CardHeader>
+              <Badge variant="outline" className="w-fit">
+                {project.category}
+              </Badge>
+              <CardTitle aria-level={2} role="heading">
+                At a glance
+              </CardTitle>
+              <CardDescription>
+                Key project metadata and technology choices.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((item) => (
+                  <Badge key={item} variant="secondary">
+                    {item}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
 
-      <ProjectVisual
-        project={project}
-        className="mt-12 rounded-lg border border-border"
-      />
+      <Reveal className="mt-12">
+        <ProjectVisual project={project} className="rounded-lg border border-border" />
+      </Reveal>
 
-      <div className="mt-10 grid gap-4 sm:mt-12 lg:grid-cols-3">
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3"
+      >
         {sections.map((section) => (
-          <InfoCard key={section.title} title={section.title} items={section.items} />
+          <motion.div
+            key={section.title}
+            variants={staggerItem}
+            whileHover={liftHover}
+          >
+            <InfoCard title={section.title} items={section.items} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </main>
   )
 }
 
 function InfoCard({ title, items }: { title: string; items: string[] }) {
   return (
-    <Card className="rounded-lg">
+    <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
       <CardHeader>
         <CardTitle aria-level={2} role="heading">
           {title}

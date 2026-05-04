@@ -9,6 +9,14 @@ import {
 import { motion } from "motion/react"
 import { Link } from "react-router-dom"
 
+import {
+  Reveal,
+} from "@/components/animation/Reveal"
+import {
+  liftHover,
+  staggerContainer,
+  staggerItem,
+} from "@/components/animation/motionPresets"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -31,25 +39,37 @@ export function Home() {
     <main>
       <section className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer}
           className="max-w-3xl"
         >
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-sm text-muted-foreground">
+          <motion.div
+            variants={staggerItem}
+            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-sm text-muted-foreground shadow-sm"
+          >
             <Sparkles className="size-4 text-primary" aria-hidden="true" />
             {profile.title}
-          </div>
+          </motion.div>
 
-          <h1 className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl">
+          <motion.h1
+            variants={staggerItem}
+            className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
+          >
             {profile.name}
-          </h1>
+          </motion.h1>
 
-          <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
+          <motion.p
+            variants={staggerItem}
+            className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8"
+          >
             {profile.summary}
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
+          <motion.div
+            variants={staggerItem}
+            className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
+          >
             <Button asChild size="lg" className="w-full min-[420px]:w-auto">
               <Link to="/projects">
                 View projects
@@ -82,12 +102,16 @@ export function Home() {
                 Contact
               </a>
             </Button>
-          </div>
+          </motion.div>
         </motion.div>
 
-        <aside
+        <motion.aside
           aria-label="Profile snapshot"
-          className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card p-4 lg:mx-0"
+          initial={{ opacity: 0, scale: 0.96, y: 14 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
+          whileHover={liftHover}
+          className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card p-4 shadow-lg shadow-foreground/5 lg:mx-0"
         >
           <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-border bg-muted/50 sm:aspect-square">
             {profile.profileImage.src ? (
@@ -111,47 +135,70 @@ export function Home() {
             </div>
           </div>
 
+          <div className="mt-5 grid grid-cols-2 gap-2">
+            {["React", "APIs", "CI", "Vercel"].map((item) => (
+              <span
+                key={item}
+                className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
+
           <div className="mt-5 grid gap-2">
             <SocialButton icon="code" social={profile.socials.github} />
             <SocialButton icon="external" social={profile.socials.linkedin} />
             <SocialButton icon="mail" social={profile.socials.email} />
           </div>
-        </aside>
+        </motion.aside>
       </section>
 
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl">
             <p className="text-sm font-medium text-muted-foreground">Skills</p>
             <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
               Tools and technologies I am building with.
             </h2>
-          </div>
+          </Reveal>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          >
             {skills.map((group) => (
-              <Card key={group.category} className="rounded-lg">
-                <CardHeader>
-                  <CardTitle aria-level={3} role="heading">
-                    {group.category}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <Badge key={item} variant="secondary">
-                      {item}
-                    </Badge>
-                  ))}
-                </CardContent>
-              </Card>
+              <motion.div
+                key={group.category}
+                variants={staggerItem}
+                whileHover={liftHover}
+              >
+                <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+                  <CardHeader>
+                    <CardTitle aria-level={3} role="heading">
+                      {group.category}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap gap-2">
+                    {group.items.map((item) => (
+                      <Badge key={item} variant="secondary">
+                        {item}
+                      </Badge>
+                    ))}
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">
                 Featured Projects
@@ -166,13 +213,21 @@ export function Home() {
                 <ArrowRight aria-hidden="true" />
               </Link>
             </Button>
-          </div>
+          </Reveal>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-80px" }}
+            className="mt-8 grid gap-4 lg:grid-cols-2"
+          >
             {featuredProjects.map((project) => (
-              <ProjectCard key={project.slug} project={project} headingLevel={3} />
+              <motion.div key={project.slug} variants={staggerItem}>
+                <ProjectCard project={project} headingLevel={3} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -181,7 +236,7 @@ export function Home() {
         className="border-t border-border/80 bg-muted/30 px-4 py-12 sm:px-8 sm:py-16"
       >
         <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
-          <div>
+          <Reveal>
             <p className="text-sm font-medium text-muted-foreground">Contact</p>
             <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
               Open to building thoughtful web projects.
@@ -190,21 +245,23 @@ export function Home() {
               Find me on GitHub and use this section as the main place for
               professional contact links.
             </p>
-          </div>
+          </Reveal>
 
-          <Card className="rounded-lg">
-            <CardHeader>
-              <CardTitle aria-level={3} role="heading">
-                Contact Nathan
-              </CardTitle>
-              <CardDescription>Best places to find me online.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-2">
-              <SocialButton icon="mail" social={profile.socials.email} />
-              <SocialButton icon="code" social={profile.socials.github} />
-              <SocialButton icon="external" social={profile.socials.linkedin} />
-            </CardContent>
-          </Card>
+          <Reveal delay={0.08}>
+            <Card className="rounded-lg">
+              <CardHeader>
+                <CardTitle aria-level={3} role="heading">
+                  Contact Nathan
+                </CardTitle>
+                <CardDescription>Best places to find me online.</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-2">
+                <SocialButton icon="mail" social={profile.socials.email} />
+                <SocialButton icon="code" social={profile.socials.github} />
+                <SocialButton icon="external" social={profile.socials.linkedin} />
+              </CardContent>
+            </Card>
+          </Reveal>
         </div>
       </section>
     </main>
