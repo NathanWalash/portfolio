@@ -42,8 +42,8 @@ export function ProjectCard({
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <Button asChild variant="outline">
+        <div className="grid gap-2 min-[420px]:flex min-[420px]:flex-wrap">
+          <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
             <Link to={`/projects/${project.slug}`}>
               Details
               <ArrowRight aria-hidden="true" />
@@ -51,7 +51,7 @@ export function ProjectCard({
           </Button>
 
           {project.live ? (
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="w-full min-[420px]:w-auto">
               <a href={project.live} target="_blank" rel="noreferrer">
                 Live
                 <ExternalLink aria-hidden="true" />
@@ -60,7 +60,7 @@ export function ProjectCard({
           ) : null}
 
           {project.github ? (
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" className="w-full min-[420px]:w-auto">
               <a href={project.github} target="_blank" rel="noreferrer">
                 Source
                 <Code2 aria-hidden="true" />

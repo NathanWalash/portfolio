@@ -6,7 +6,7 @@ import { profile, type SocialLink } from "@/data/profile"
 export function Footer() {
   return (
     <footer className="border-t border-border/80 bg-muted/30">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8">
         <div>
           <Link
             to="/"
@@ -14,9 +14,7 @@ export function Footer() {
           >
             {profile.name}
           </Link>
-          <p className="mt-2 max-w-md">
-            {profile.summary}
-          </p>
+          <p className="mt-2 max-w-md">{profile.summary}</p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
