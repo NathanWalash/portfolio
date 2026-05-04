@@ -153,3 +153,6 @@ test-results/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Personal documents with direct contact details
+src/assets/Nathan_Walsh_CV.pdf

@@ -136,7 +136,7 @@ export function Home() {
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-2">
-            {["React", "APIs", "CI", "Vercel"].map((item) => (
+            {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
               <span
                 key={item}
                 className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
@@ -149,7 +149,6 @@ export function Home() {
           <div className="mt-5 grid gap-2">
             <SocialButton icon="code" social={profile.socials.github} />
             <SocialButton icon="external" social={profile.socials.linkedin} />
-            <SocialButton icon="mail" social={profile.socials.email} />
           </div>
         </motion.aside>
       </section>
@@ -204,7 +203,7 @@ export function Home() {
                 Featured Projects
               </p>
               <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
-                Work that shows the direction of the portfolio.
+                APIs, search systems, forecasting products, and smart contracts.
               </h2>
             </div>
             <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
@@ -239,11 +238,10 @@ export function Home() {
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">Contact</p>
             <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
-              Open to building thoughtful web projects.
+              Open to software engineering and full-stack opportunities.
             </h2>
             <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
-              Find me on GitHub and use this section as the main place for
-              professional contact links.
+              {profile.contactNote}
             </p>
           </Reveal>
 
@@ -256,7 +254,6 @@ export function Home() {
                 <CardDescription>Best places to find me online.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-2">
-                <SocialButton icon="mail" social={profile.socials.email} />
                 <SocialButton icon="code" social={profile.socials.github} />
                 <SocialButton icon="external" social={profile.socials.linkedin} />
               </CardContent>
@@ -272,10 +269,10 @@ function SocialButton({
   icon,
   social,
 }: {
-  icon: "code" | "external" | "mail"
+  icon: "code" | "external"
   social: SocialLink
 }) {
-  const Icon = icon === "code" ? Code2 : icon === "mail" ? Mail : ExternalLink
+  const Icon = icon === "code" ? Code2 : ExternalLink
   const content = (
     <>
       <Icon aria-hidden="true" />
@@ -289,14 +286,6 @@ function SocialButton({
       ? "hover:bg-muted hover:text-foreground"
       : "cursor-default text-muted-foreground",
   )
-
-  if (!social.href) {
-    return (
-      <span aria-disabled="true" className={className}>
-        {content}
-      </span>
-    )
-  }
 
   return (
     <a

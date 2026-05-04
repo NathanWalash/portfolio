@@ -1,5 +1,5 @@
 export type SocialLink = {
-  label: "GitHub" | "LinkedIn" | "Email"
+  label: "GitHub" | "LinkedIn"
   href: string
   external?: boolean
 }
@@ -10,8 +10,15 @@ export const profile = {
   title: "Full-Stack Developer",
   location: "United Kingdom",
   summary:
-    "I build clean, practical software across React, TypeScript, APIs, and maintainable web systems.",
-  email: "",
+    "Final-year Computer Science with AI student building practical software across full-stack web, APIs, machine learning, and smart contracts.",
+  contactNote:
+    "CV available on request through LinkedIn. I keep direct email and phone details off the public site.",
+  highlights: [
+    "BSc Computer Science with Artificial Intelligence at the University of Leeds",
+    "Predicted First Class",
+    "Leeds Hackathon winner in 2025 and 2026",
+    "Junior Software Developer experience across React, Node.js, Solidity, Laravel, and databases",
+  ],
   profileImage: {
     src: "",
     alt: "Nathan Walsh profile photo",
@@ -27,10 +34,6 @@ export const profile = {
       href: "https://www.linkedin.com/in/nathan-walsh1/",
       external: true,
     },
-    email: {
-      label: "Email",
-      href: "",
-    },
   },
 } satisfies {
   name: string
@@ -38,7 +41,8 @@ export const profile = {
   title: string
   location: string
   summary: string
-  email: string
+  contactNote: string
+  highlights: string[]
   profileImage: {
     src: string
     alt: string
@@ -46,6 +50,5 @@ export const profile = {
   socials: {
     github: SocialLink
     linkedin: SocialLink
-    email: SocialLink
   }
 }

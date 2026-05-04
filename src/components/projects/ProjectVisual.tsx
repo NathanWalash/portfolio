@@ -1,37 +1,37 @@
-import { Braces, Database, ImageIcon, LayoutTemplate, Wrench } from "lucide-react"
+import { Blocks, Database, ImageIcon, LineChart, Search } from "lucide-react"
 import { motion } from "motion/react"
 
 import { type Project } from "@/data/projects"
 import { cn } from "@/lib/utils"
 
 const visualStyles = {
-  "Web App": {
+  "Backend/API": {
     panel:
       "from-sky-50 via-background to-emerald-50 dark:from-sky-950/40 dark:via-background dark:to-emerald-950/30",
     accent: "bg-sky-500",
     secondary: "bg-emerald-500",
-    Icon: Braces,
+    Icon: Database,
   },
-  "Full-stack": {
+  Algorithms: {
     panel:
       "from-violet-50 via-background to-cyan-50 dark:from-violet-950/40 dark:via-background dark:to-cyan-950/30",
     accent: "bg-violet-500",
     secondary: "bg-cyan-500",
-    Icon: Database,
+    Icon: Search,
   },
-  UI: {
+  "ML Product": {
     panel:
       "from-rose-50 via-background to-amber-50 dark:from-rose-950/40 dark:via-background dark:to-amber-950/30",
     accent: "bg-rose-500",
     secondary: "bg-amber-500",
-    Icon: LayoutTemplate,
+    Icon: LineChart,
   },
-  Tools: {
+  Blockchain: {
     panel:
       "from-lime-50 via-background to-indigo-50 dark:from-lime-950/30 dark:via-background dark:to-indigo-950/40",
     accent: "bg-lime-500",
     secondary: "bg-indigo-500",
-    Icon: Wrench,
+    Icon: Blocks,
   },
 } satisfies Record<
   Project["category"],
@@ -39,7 +39,7 @@ const visualStyles = {
     panel: string
     accent: string
     secondary: string
-    Icon: typeof Braces
+    Icon: typeof Blocks
   }
 >
 

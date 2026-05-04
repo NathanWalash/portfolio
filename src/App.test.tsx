@@ -42,20 +42,20 @@ describe("App routing", () => {
       "https://github.com/NathanWalash",
     )
     expect(
-      screen.getByRole("heading", { name: /portfolio website/i }),
+      screen.getByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
   })
 
   it("renders a data-driven project detail route", () => {
-    renderRoute("/projects/portfolio-website")
+    renderRoute("/projects/research-assistant-api")
 
     expect(
-      screen.getByRole("heading", { name: /portfolio website/i }),
+      screen.getByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: /overview/i })).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: /live demo/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /source/i })).toHaveAttribute(
       "href",
-      "https://example.com",
+      "https://github.com/NathanWalash/research-assistant-api",
     )
   })
 
@@ -65,17 +65,17 @@ describe("App routing", () => {
     renderRoute("/projects")
 
     expect(
-      screen.getByRole("heading", { name: /portfolio website/i }),
+      screen.getByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
 
-    await user.click(screen.getByRole("tab", { name: /ui/i }))
+    await user.click(screen.getByRole("tab", { name: /blockchain/i }))
 
     expect(
-      screen.getByRole("heading", { name: /component practice lab/i }),
+      screen.getByRole("heading", { name: /modular dao factory/i }),
     ).toBeInTheDocument()
     await waitFor(() => {
       expect(
-        screen.queryByRole("heading", { name: /portfolio website/i }),
+        screen.queryByRole("heading", { name: /research assistant api/i }),
       ).not.toBeInTheDocument()
     })
   })

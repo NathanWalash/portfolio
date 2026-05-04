@@ -9,11 +9,11 @@ import {
   staggerItem,
 } from "@/components/animation/motionPresets"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { profile } from "@/data/profile"
 import { skills } from "@/data/skills"
 
-const focusAreas = ["Full-stack thinking", "Clean architecture", "Reliable delivery"]
+const focusAreas = ["Full-stack systems", "AI and data", "Smart contracts"]
 
 export function About() {
   return (
@@ -24,8 +24,8 @@ export function About() {
           About {profile.name}.
         </h1>
         <p className="mt-5 text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-          {profile.summary} I am shaping this portfolio around practical projects,
-          steady learning, and sound software engineering habits.
+          {profile.summary} This portfolio focuses on projects that show practical
+          engineering judgement across APIs, algorithms, ML workflows, and Web3.
         </p>
       </Reveal>
 
@@ -39,6 +39,24 @@ export function About() {
         {focusAreas.map((area) => (
           <motion.div key={area} variants={staggerItem}>
             <Badge variant="secondary">{area}</Badge>
+          </motion.div>
+        ))}
+      </motion.div>
+
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-80px" }}
+        className="mt-10 grid gap-4 sm:mt-12 md:grid-cols-2"
+      >
+        {profile.highlights.map((highlight) => (
+          <motion.div key={highlight} variants={staggerItem} whileHover={liftHover}>
+            <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+              <CardContent className="pt-1 text-sm leading-6 text-muted-foreground">
+                {highlight}
+              </CardContent>
+            </Card>
           </motion.div>
         ))}
       </motion.div>

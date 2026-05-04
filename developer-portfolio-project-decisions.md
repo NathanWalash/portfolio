@@ -281,9 +281,10 @@ Show primary technologies as badges or small cards.
 Example categories:
 
 ```txt
-Core Web
-APIs & Backend
-Engineering Workflow
+Programming
+Web & Backend
+Data & ML
+Workflow & Tools
 ```
 
 Potential technologies:
@@ -373,19 +374,20 @@ Use this page to show:
 Featured projects
 Smaller experiments
 Application builds
-Full-stack apps
-UI practice
-Tools/scripts
+Backend/API projects
+Algorithmic systems
+ML products
+Blockchain projects
 ```
 
 Recommended filters:
 
 ```txt
 All
-Web App
-Full-stack
-UI
-Tools
+Backend/API
+Algorithms
+ML Product
+Blockchain
 ```
 
 Use shadcn/ui components:
@@ -541,7 +543,7 @@ export type Project = {
   title: string;
   slug: string;
   description: string;
-  category: "Web App" | "Full-stack" | "UI" | "Tools";
+  category: "Backend/API" | "Algorithms" | "ML Product" | "Blockchain";
   stack: string[];
   image?: string;
   github?: string;
@@ -558,14 +560,13 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Portfolio Website",
-    slug: "portfolio-website",
+    title: "Research Assistant API",
+    slug: "research-assistant-api",
     description:
-      "A custom developer portfolio built as a maintainable React app with TypeScript, Tailwind, shadcn/ui, and Motion.",
-    category: "Web App",
-    stack: ["React", "TypeScript", "Tailwind", "shadcn/ui", "Motion"],
-    github: "https://github.com/your-name/portfolio",
-    live: "https://your-domain.com",
+      "A production-style scholarly discovery backend combining FastAPI, PostgreSQL, pgvector, citation traversal, auth, and deployment-grade CI/CD.",
+    category: "Backend/API",
+    stack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "Docker"],
+    github: "https://github.com/NathanWalash/research-assistant-api",
     featured: true,
     overview:
       "A personal portfolio designed to showcase projects, skills, and developer personality.",
@@ -612,16 +613,20 @@ Example:
 ```ts
 export const skills = [
   {
-    category: "Core Web",
-    items: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Motion"]
+    category: "Programming",
+    items: ["Python", "TypeScript", "JavaScript", "Java", "C++", "C#", "PHP", "SQL", "Solidity"]
   },
   {
-    category: "APIs & Backend",
-    items: ["Node.js", "APIs", "Testing", "Backend basics"]
+    category: "Web & Backend",
+    items: ["React", "Next.js", "Node.js", "FastAPI", "Flask", "Django", "Laravel"]
   },
   {
-    category: "Engineering Workflow",
-    items: ["Git", "GitHub", "Vite", "Vercel", "CI"]
+    category: "Data & ML",
+    items: ["scikit-learn", "pandas", "NumPy", "Matplotlib", "PostgreSQL", "pgvector", "MySQL"]
+  },
+  {
+    category: "Workflow & Tools",
+    items: ["Git", "GitHub Actions", "Docker", "Hardhat", "Vercel", "Railway"]
   }
 ];
 ```
