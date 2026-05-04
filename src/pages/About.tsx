@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card"
 import { profile } from "@/data/profile"
 import { skills } from "@/data/skills"
 
-const focusAreas = ["Frontend craft", "Reusable components", "Clean delivery"]
+const focusAreas = ["Full-stack thinking", "Clean architecture", "Reliable delivery"]
 
 export function About() {
   return (
@@ -15,7 +15,7 @@ export function About() {
         </h1>
         <p className="mt-5 text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
           {profile.summary} I am shaping this portfolio around practical projects,
-          steady learning, and frontend craft.
+          steady learning, and sound software engineering habits.
         </p>
       </div>
 

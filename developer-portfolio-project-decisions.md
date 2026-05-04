@@ -135,7 +135,7 @@ Multiple containers
 Complex local development setup
 ```
 
-For now, this is a frontend portfolio and should stay simple.
+For now, this is a static web portfolio and should stay simple.
 
 ---
 
@@ -281,9 +281,9 @@ Show primary technologies as badges or small cards.
 Example categories:
 
 ```txt
-Frontend
-Tools
-Learning / Exploring
+Core Web
+APIs & Backend
+Engineering Workflow
 ```
 
 Potential technologies:
@@ -372,7 +372,7 @@ Use this page to show:
 ```txt
 Featured projects
 Smaller experiments
-Frontend builds
+Application builds
 Full-stack apps
 UI practice
 Tools/scripts
@@ -382,7 +382,7 @@ Recommended filters:
 
 ```txt
 All
-Frontend
+Web App
 Full-stack
 UI
 Tools
@@ -541,7 +541,7 @@ export type Project = {
   title: string;
   slug: string;
   description: string;
-  category: "Frontend" | "Full-stack" | "UI" | "Tools";
+  category: "Web App" | "Full-stack" | "UI" | "Tools";
   stack: string[];
   image?: string;
   github?: string;
@@ -561,8 +561,8 @@ export const projects: Project[] = [
     title: "Portfolio Website",
     slug: "portfolio-website",
     description:
-      "A custom developer portfolio built with React, TypeScript, Tailwind, shadcn/ui, and Motion.",
-    category: "Frontend",
+      "A custom developer portfolio built as a maintainable React app with TypeScript, Tailwind, shadcn/ui, and Motion.",
+    category: "Web App",
     stack: ["React", "TypeScript", "Tailwind", "shadcn/ui", "Motion"],
     github: "https://github.com/your-name/portfolio",
     live: "https://your-domain.com",
@@ -612,16 +612,16 @@ Example:
 ```ts
 export const skills = [
   {
-    category: "Frontend",
+    category: "Core Web",
     items: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Motion"]
   },
   {
-    category: "Tools",
-    items: ["Git", "GitHub", "Vite", "Vercel", "VS Code"]
+    category: "APIs & Backend",
+    items: ["Node.js", "APIs", "Testing", "Backend basics"]
   },
   {
-    category: "Learning",
-    items: ["Node.js", "APIs", "Testing", "Backend basics"]
+    category: "Engineering Workflow",
+    items: ["Git", "GitHub", "Vite", "Vercel", "CI"]
   }
 ];
 ```
