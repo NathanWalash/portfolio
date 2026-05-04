@@ -1,6 +1,6 @@
 # Developer Portfolio
 
-A custom developer portfolio built as a proper frontend project: planned in stages, developed on branches, reviewed between milestones, and protected by basic CI checks.
+A custom developer portfolio built as a proper web app project: planned in stages, developed on branches, reviewed between milestones, and protected by basic CI checks.
 
 ## Goal
 

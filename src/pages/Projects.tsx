@@ -24,7 +24,7 @@ export function Projects() {
           Selected builds and case studies.
         </h1>
         <p className="mt-5 text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-          A focused gallery for featured projects, smaller experiments, UI builds,
+          A focused gallery for application builds, smaller experiments, UI work,
           and tools.
         </p>
       </div>

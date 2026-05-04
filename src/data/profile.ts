@@ -7,10 +7,10 @@ export type SocialLink = {
 export const profile = {
   name: "Nathan Walsh",
   initials: "NW",
-  title: "Frontend Developer",
+  title: "Full-Stack Developer",
   location: "United Kingdom",
   summary:
-    "I build clean, fast, user-focused web apps with React, TypeScript, and practical UI systems.",
+    "I build clean, practical software across React, TypeScript, APIs, and maintainable web systems.",
   email: "",
   profileImage: {
     src: "",
