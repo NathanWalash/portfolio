@@ -1,5 +1,7 @@
 import { useState } from "react"
+import { AnimatePresence, motion } from "motion/react"
 
+import { Reveal } from "@/components/animation/Reveal"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -18,7 +20,7 @@ export function Projects() {
 
   return (
     <main className="mx-auto min-h-[calc(100svh-4rem)] w-full max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
-      <div className="max-w-3xl">
+      <Reveal className="max-w-3xl">
         <p className="text-sm font-medium text-muted-foreground">Projects</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-normal sm:text-5xl">
           Selected builds and case studies.
@@ -27,9 +29,9 @@ export function Projects() {
           A focused gallery for application builds, smaller experiments, UI work,
           and tools.
         </p>
-      </div>
+      </Reveal>
 
-      <div className="mt-8 flex flex-col gap-4 border-y border-border/80 py-5 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
+      <Reveal className="mt-8 flex flex-col gap-4 border-y border-border/80 py-5 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
           value={activeFilter}
           onValueChange={(value) => setActiveFilter(value as ProjectFilter)}
@@ -46,13 +48,24 @@ export function Projects() {
         <Badge variant="secondary" className="w-fit">
           {filteredProjects.length} of {projects.length} shown
         </Badge>
-      </div>
+      </Reveal>
 
-      <div className="mt-10 grid gap-4 md:grid-cols-2">
-        {filteredProjects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
-        ))}
-      </div>
+      <motion.div layout className="mt-10 grid gap-4 lg:grid-cols-2">
+        <AnimatePresence mode="popLayout">
+          {filteredProjects.map((project) => (
+            <motion.div
+              key={project.slug}
+              layout
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
     </main>
   )
 }
