@@ -1,4 +1,4 @@
-export const projectCategories = ["Frontend", "Full-stack", "UI", "Tools"] as const
+export const projectCategories = ["Web App", "Full-stack", "UI", "Tools"] as const
 
 export type ProjectCategory = (typeof projectCategories)[number]
 
@@ -29,8 +29,8 @@ export const projects: Project[] = [
     title: "Portfolio Website",
     slug: "portfolio-website",
     description:
-      "A custom developer portfolio built with React, TypeScript, Tailwind CSS, shadcn/ui, and Motion.",
-    category: "Frontend",
+      "A custom developer portfolio built as a maintainable React app with TypeScript, Tailwind CSS, shadcn/ui, and Motion.",
+    category: "Web App",
     stack: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Motion"],
     image: {
       src: "",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
       "Balancing a custom look with reusable shadcn/ui components",
     ],
     learned: [
-      "Planning a frontend project in small milestones",
+      "Planning a software project in small milestones",
       "Using React Router with shared layouts",
       "Keeping CI useful without overcomplicating the app",
     ],
@@ -107,7 +107,7 @@ export const projects: Project[] = [
     title: "API Notes Tool",
     slug: "api-notes-tool",
     description:
-      "A small notes-style app concept for practicing API flows, state boundaries, and frontend data handling.",
+      "A small notes-style app concept for practicing API flows, state boundaries, and application data handling.",
     category: "Full-stack",
     stack: ["React", "TypeScript", "Node.js", "APIs"],
     image: {
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     },
     github: "https://github.com/NathanWalash",
     overview:
-      "A planned project for demonstrating how a frontend can organize create, read, update, and delete flows.",
+      "A planned project for demonstrating how a web app can organize create, read, update, and delete flows.",
     problem:
       "Portfolio projects are stronger when they show data flow and user tasks, not just static layouts.",
     solution:
