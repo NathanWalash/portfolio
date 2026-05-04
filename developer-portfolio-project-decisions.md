@@ -306,9 +306,9 @@ Short personal/dev summary with a link to the About page.
 
 #### Contact CTA
 
-A simple section at the bottom with a mailto link and social links.
+A simple section at the bottom with professional contact links.
 
-Use a `mailto:` link for version 1 instead of a backend form.
+Use LinkedIn and GitHub links for version 1 instead of publishing a direct email address or building a backend form.
 
 ---
 
@@ -773,7 +773,7 @@ shadcn cards/buttons/badges/tabs
 Basic Motion animations
 GitHub links
 Live demo links
-mailto contact CTA
+LinkedIn/GitHub contact CTA
 Vercel deployment
 ```
 

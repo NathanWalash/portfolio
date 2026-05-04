@@ -120,7 +120,7 @@ export const projects: Project[] = [
     title: "PredictPal ML Pipeline",
     slug: "predictpal-ml-pipeline",
     description:
-      "A guided forecasting product that takes users from uploaded time-series data to trained forecasts and shareable story-style outputs.",
+      "A Leeds Hackathon 2026 winning forecasting product that takes users from uploaded time-series data to trained forecasts and shareable story-style outputs.",
     category: "ML Product",
     stack: ["Next.js", "React", "TypeScript", "FastAPI", "pandas", "scikit-learn", "skforecast", "Recharts", "Zustand"],
     image: {
@@ -130,7 +130,7 @@ export const projects: Project[] = [
     github: "https://github.com/NathanWalash/predictpal-ml-pipeline",
     featured: true,
     overview:
-      "A hackathon-built time-series forecasting app with a full-stack flow for uploading data, training models, reviewing results, and publishing notebook-style stories.",
+      "A University of Leeds Hackathon 2026 winning time-series forecasting app with a full-stack flow for uploading data, training models, reviewing results, and publishing notebook-style stories.",
     problem:
       "Forecasting demos often fail when users cannot move smoothly from raw data to model outputs, interpretation, and a shareable narrative.",
     solution:
@@ -142,6 +142,7 @@ export const projects: Project[] = [
       "Visual model-quality and forecast review",
       "Story publishing with explore/search/category filters",
       "Local persistence for resilient demos",
+      "Built as a winning Leeds Hackathon 2026 project",
     ],
     challenges: [
       "Keeping an ML workflow understandable inside a time-boxed product demo",
@@ -173,7 +174,7 @@ export const projects: Project[] = [
     github: "https://github.com/NathanWalash/ModularDAOFactory",
     featured: true,
     overview:
-      "A modular smart-contract architecture for creating DAO instances with different combinations of membership, greeting, counter, voting-style, or future modules.",
+      "A modular smart-contract architecture from a Leeds Hackathon 2025 winning prototype for creating DAO instances with different combinations of membership, greeting, counter, voting-style, or future modules.",
     problem:
       "DAO creation becomes rigid when every new organisation requires a bespoke contract or a fixed feature set.",
     solution:
@@ -185,6 +186,7 @@ export const projects: Project[] = [
       "Diamond storage slots to avoid module storage collisions",
       "JSON templates for reusable off-chain DAO configurations",
       "Hardhat tests for template-driven creation and module behaviour",
+      "Built from a winning Leeds Hackathon 2025 DAO marketplace prototype",
     ],
     challenges: [
       "Keeping module storage isolated across delegate calls",

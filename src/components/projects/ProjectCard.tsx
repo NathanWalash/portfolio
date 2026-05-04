@@ -1,8 +1,7 @@
 import { ArrowRight, Code2, ExternalLink } from "lucide-react"
-import { motion } from "motion/react"
 import { Link } from "react-router-dom"
 
-import { liftHover } from "@/components/animation/motionPresets"
+import { TiltCard } from "@/components/animation/TiltCard"
 import { ProjectVisual } from "@/components/projects/ProjectVisual"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -23,7 +22,7 @@ export function ProjectCard({
   headingLevel?: 2 | 3
 }) {
   return (
-    <motion.article whileHover={liftHover} className="h-full">
+    <TiltCard>
       <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
         <ProjectVisual project={project} className="border-b border-border" />
         <CardHeader>
@@ -73,6 +72,6 @@ export function ProjectCard({
           </div>
         </CardContent>
       </Card>
-    </motion.article>
+    </TiltCard>
   )
 }

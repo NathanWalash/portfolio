@@ -1,4 +1,4 @@
-import { ArrowLeft, Code2, ExternalLink } from "lucide-react"
+import { ArrowLeft, CheckCircle2, Code2, ExternalLink } from "lucide-react"
 import { motion } from "motion/react"
 import { Link, useParams } from "react-router-dom"
 
@@ -117,39 +117,62 @@ export function ProjectDetail() {
         <ProjectVisual project={project} className="rounded-lg border border-border" />
       </Reveal>
 
-      <motion.div
+      <motion.ol
         variants={staggerContainer}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
-        className="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3"
+        className="relative mt-10 space-y-4 border-l border-border pl-5 sm:mt-12 sm:pl-7"
       >
-        {sections.map((section) => (
-          <motion.div
+        {sections.map((section, index) => (
+          <motion.li
             key={section.title}
             variants={staggerItem}
             whileHover={liftHover}
+            className="relative list-none"
           >
-            <InfoCard title={section.title} items={section.items} />
-          </motion.div>
+            <span className="absolute -left-[2.08rem] top-5 grid size-8 place-items-center rounded-lg border border-border bg-background text-xs font-medium text-muted-foreground sm:-left-[2.58rem]">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <InfoCard title={section.title} items={section.items} index={index} />
+          </motion.li>
         ))}
-      </motion.div>
+      </motion.ol>
     </main>
   )
 }
 
-function InfoCard({ title, items }: { title: string; items: string[] }) {
+function InfoCard({
+  title,
+  items,
+  index,
+}: {
+  title: string
+  items: string[]
+  index: number
+}) {
   return (
     <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-      <CardHeader>
-        <CardTitle aria-level={2} role="heading">
-          {title}
-        </CardTitle>
+      <CardHeader className="sm:flex sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <CardTitle aria-level={2} role="heading">
+            {title}
+          </CardTitle>
+        </div>
+        <Badge variant="secondary" className="w-fit">
+          Step {index + 1}
+        </Badge>
       </CardHeader>
       <CardContent>
         <ul className="space-y-3 text-sm leading-6 text-muted-foreground">
           {items.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item} className="flex gap-2">
+              <CheckCircle2
+                className="mt-0.5 size-4 shrink-0 text-foreground/60"
+                aria-hidden="true"
+              />
+              <span>{item}</span>
+            </li>
           ))}
         </ul>
       </CardContent>

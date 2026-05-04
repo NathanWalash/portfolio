@@ -7,16 +7,17 @@ import {
   Sparkles,
 } from "lucide-react"
 import { motion } from "motion/react"
+import type { CSSProperties, PointerEvent } from "react"
 import { Link } from "react-router-dom"
 
-import {
-  Reveal,
-} from "@/components/animation/Reveal"
+import { Reveal } from "@/components/animation/Reveal"
 import {
   liftHover,
   staggerContainer,
   staggerItem,
 } from "@/components/animation/motionPresets"
+import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
+import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -35,122 +36,146 @@ import { cn } from "@/lib/utils"
 const featuredProjects = getFeaturedProjects()
 
 export function Home() {
+  const heroStyle = {
+    "--hero-x": "58%",
+    "--hero-y": "38%",
+  } as CSSProperties
+
+  function handleHeroPointerMove(event: PointerEvent<HTMLElement>) {
+    if (event.pointerType === "touch") {
+      return
+    }
+
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty(
+      "--hero-x",
+      `${Math.round(((event.clientX - rect.left) / rect.width) * 100)}%`,
+    )
+    event.currentTarget.style.setProperty(
+      "--hero-y",
+      `${Math.round(((event.clientY - rect.top) / rect.height) * 100)}%`,
+    )
+  }
+
+  function handleHeroPointerLeave(event: PointerEvent<HTMLElement>) {
+    event.currentTarget.style.setProperty("--hero-x", "58%")
+    event.currentTarget.style.setProperty("--hero-y", "38%")
+  }
+
   return (
     <main>
-      <section className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={staggerContainer}
-          className="max-w-3xl"
-        >
+      <section
+        style={heroStyle}
+        onPointerMove={handleHeroPointerMove}
+        onPointerLeave={handleHeroPointerLeave}
+        className="relative isolate overflow-hidden"
+      >
+        <InteractiveHeroBackground />
+        <div className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_23rem]">
           <motion.div
-            variants={staggerItem}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-sm text-muted-foreground shadow-sm"
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+            className="max-w-3xl"
           >
-            <Sparkles className="size-4 text-primary" aria-hidden="true" />
-            {profile.title}
-          </motion.div>
-
-          <motion.h1
-            variants={staggerItem}
-            className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
-          >
-            {profile.name}
-          </motion.h1>
-
-          <motion.p
-            variants={staggerItem}
-            className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8"
-          >
-            {profile.summary}
-          </motion.p>
-
-          <motion.div
-            variants={staggerItem}
-            className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
-          >
-            <Button asChild size="lg" className="w-full min-[420px]:w-auto">
-              <Link to="/projects">
-                View projects
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="w-full min-[420px]:w-auto"
+            <motion.div
+              variants={staggerItem}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-1 text-sm text-muted-foreground shadow-sm backdrop-blur"
             >
-              <a
-                href={profile.socials.github.href}
-                target="_blank"
-                rel="noreferrer"
+              <Sparkles className="size-4 text-primary" aria-hidden="true" />
+              {profile.title}
+            </motion.div>
+
+            <motion.h1
+              variants={staggerItem}
+              className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
+            >
+              {profile.name}
+            </motion.h1>
+
+            <motion.p
+              variants={staggerItem}
+              className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8"
+            >
+              {profile.summary}
+            </motion.p>
+
+            <motion.div
+              variants={staggerItem}
+              className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
+            >
+              <Button asChild size="lg" className="w-full min-[420px]:w-auto">
+                <Link to="/projects">
+                  View projects
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="w-full min-[420px]:w-auto"
               >
-                <Code2 aria-hidden="true" />
-                GitHub
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="w-full min-[420px]:w-auto"
-            >
-              <a href="#contact">
-                <Mail aria-hidden="true" />
-                Contact
-              </a>
-            </Button>
+                <a
+                  href={profile.socials.github.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Code2 aria-hidden="true" />
+                  GitHub
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="lg"
+                className="w-full min-[420px]:w-auto"
+              >
+                <a href="#contact">
+                  <Mail aria-hidden="true" />
+                  Contact
+                </a>
+              </Button>
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        <motion.aside
-          aria-label="Profile snapshot"
-          initial={{ opacity: 0, scale: 0.96, y: 14 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
-          whileHover={liftHover}
-          className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card p-4 shadow-lg shadow-foreground/5 lg:mx-0"
-        >
-          <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-border bg-muted/50 sm:aspect-square">
-            {profile.profileImage.src ? (
-              <img
-                src={profile.profileImage.src}
-                alt={profile.profileImage.alt}
-                className="size-full object-cover"
-              />
-            ) : (
-              <div className="grid size-24 place-items-center rounded-lg border border-border bg-background text-3xl font-semibold">
-                {profile.initials}
+          <motion.aside
+            aria-label="Profile snapshot"
+            initial={{ opacity: 0, scale: 0.96, y: 14 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
+            whileHover={liftHover}
+            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur lg:mx-0"
+          >
+            <ProfileSystemPanel />
+
+            <div className="mt-5">
+              <h2 className="text-xl font-semibold tracking-normal">
+                {profile.name}
+              </h2>
+              <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="size-4" aria-hidden="true" />
+                {profile.location}
               </div>
-            )}
-          </div>
-
-          <div className="mt-5">
-            <h2 className="text-xl font-semibold tracking-normal">{profile.name}</h2>
-            <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin className="size-4" aria-hidden="true" />
-              {profile.location}
             </div>
-          </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
-            {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
-              <span
-                key={item}
-                className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+            <div className="mt-5 grid grid-cols-2 gap-2">
+              {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
 
-          <div className="mt-5 grid gap-2">
-            <SocialButton icon="code" social={profile.socials.github} />
-            <SocialButton icon="external" social={profile.socials.linkedin} />
-          </div>
-        </motion.aside>
+            <div className="mt-5 grid gap-2">
+              <SocialButton icon="code" social={profile.socials.github} />
+              <SocialButton icon="external" social={profile.socials.linkedin} />
+            </div>
+          </motion.aside>
+        </div>
       </section>
 
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">

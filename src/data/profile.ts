@@ -12,7 +12,7 @@ export const profile = {
   summary:
     "Final-year Computer Science with AI student building practical software across full-stack web, APIs, machine learning, and smart contracts.",
   contactNote:
-    "CV available on request through LinkedIn. I keep direct email and phone details off the public site.",
+    "Reach me through LinkedIn or GitHub for professional contact.",
   highlights: [
     "BSc Computer Science with Artificial Intelligence at the University of Leeds",
     "Predicted First Class",
