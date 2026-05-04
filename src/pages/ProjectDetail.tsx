@@ -33,7 +33,7 @@ export function ProjectDetail() {
   ]
 
   return (
-    <main className="mx-auto min-h-[calc(100svh-4rem)] w-full max-w-6xl px-6 py-16 sm:px-8">
+    <main className="mx-auto min-h-[calc(100svh-4rem)] w-full max-w-6xl px-4 py-12 sm:px-8 sm:py-16">
       <Button asChild variant="outline">
         <Link to="/projects">
           <ArrowLeft aria-hidden="true" />
@@ -41,21 +41,21 @@ export function ProjectDetail() {
         </Link>
       </Button>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="mt-8 grid gap-8 sm:mt-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-10">
         <div>
           <p className="text-sm font-medium text-muted-foreground">
             {project.category} case study
           </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-normal sm:text-5xl">
+          <h1 className="mt-3 text-3xl font-semibold tracking-normal sm:text-5xl">
             {project.title}
           </h1>
-          <p className="mt-6 text-lg leading-8 text-muted-foreground">
+          <p className="mt-5 text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
             {project.description}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
             {project.live ? (
-              <Button asChild>
+              <Button asChild className="w-full min-[420px]:w-auto">
                 <a href={project.live} target="_blank" rel="noreferrer">
                   Live demo
                   <ExternalLink aria-hidden="true" />
@@ -63,7 +63,7 @@ export function ProjectDetail() {
               </Button>
             ) : null}
             {project.github ? (
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
                 <a href={project.github} target="_blank" rel="noreferrer">
                   Source
                   <Code2 aria-hidden="true" />
@@ -102,7 +102,7 @@ export function ProjectDetail() {
         className="mt-12 rounded-lg border border-border"
       />
 
-      <div className="mt-12 grid gap-4 lg:grid-cols-3">
+      <div className="mt-10 grid gap-4 sm:mt-12 lg:grid-cols-3">
         {sections.map((section) => (
           <InfoCard key={section.title} title={section.title} items={section.items} />
         ))}

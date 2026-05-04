@@ -29,7 +29,7 @@ const featuredProjects = getFeaturedProjects()
 export function Home() {
   return (
     <main>
-      <section className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-10 px-6 py-16 sm:px-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
+      <section className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,22 +41,27 @@ export function Home() {
             {profile.title}
           </div>
 
-          <h1 className="text-balance text-5xl font-semibold tracking-normal text-foreground sm:text-6xl">
+          <h1 className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl">
             {profile.name}
           </h1>
 
-          <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground">
+          <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
             {profile.summary}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
+          <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
+            <Button asChild size="lg" className="w-full min-[420px]:w-auto">
               <Link to="/projects">
                 View projects
                 <ArrowRight aria-hidden="true" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="w-full min-[420px]:w-auto"
+            >
               <a
                 href={profile.socials.github.href}
                 target="_blank"
@@ -66,7 +71,12 @@ export function Home() {
                 GitHub
               </a>
             </Button>
-            <Button asChild variant="ghost" size="lg">
+            <Button
+              asChild
+              variant="ghost"
+              size="lg"
+              className="w-full min-[420px]:w-auto"
+            >
               <a href="#contact">
                 <Mail aria-hidden="true" />
                 Contact
@@ -77,9 +87,9 @@ export function Home() {
 
         <aside
           aria-label="Profile snapshot"
-          className="rounded-lg border border-border bg-card p-4"
+          className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card p-4 lg:mx-0"
         >
-          <div className="grid aspect-square place-items-center overflow-hidden rounded-lg border border-border bg-muted/50">
+          <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-border bg-muted/50 sm:aspect-square">
             {profile.profileImage.src ? (
               <img
                 src={profile.profileImage.src}
@@ -109,11 +119,11 @@ export function Home() {
         </aside>
       </section>
 
-      <section className="border-t border-border/80 px-6 py-16 sm:px-8">
+      <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
           <div className="max-w-2xl">
             <p className="text-sm font-medium text-muted-foreground">Skills</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal">
+            <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
               Tools and technologies I am building with.
             </h2>
           </div>
@@ -139,18 +149,18 @@ export function Home() {
         </div>
       </section>
 
-      <section className="border-t border-border/80 px-6 py-16 sm:px-8">
+      <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">
                 Featured Projects
               </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-normal">
+              <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
                 Work that shows the direction of the portfolio.
               </h2>
             </div>
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
               <Link to="/projects">
                 View all
                 <ArrowRight aria-hidden="true" />
@@ -168,12 +178,12 @@ export function Home() {
 
       <section
         id="contact"
-        className="border-t border-border/80 bg-muted/30 px-6 py-16 sm:px-8"
+        className="border-t border-border/80 bg-muted/30 px-4 py-12 sm:px-8 sm:py-16"
       >
         <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
           <div>
             <p className="text-sm font-medium text-muted-foreground">Contact</p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-normal">
+            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
               Open to building thoughtful web projects.
             </h2>
             <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
