@@ -7,7 +7,7 @@ import {
   Sparkles,
 } from "lucide-react"
 import { motion } from "motion/react"
-import type { CSSProperties, PointerEvent } from "react"
+import { useEffect, useRef, type CSSProperties, type PointerEvent } from "react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
@@ -35,39 +35,122 @@ import { cn } from "@/lib/utils"
 
 const featuredProjects = getFeaturedProjects()
 
+type PointerPosition = {
+  clientX: number
+  clientY: number
+}
+
+function resetHeroBackground(element: HTMLElement | null) {
+  element?.style.setProperty("--hero-x", "58%")
+  element?.style.setProperty("--hero-y", "38%")
+  element?.style.setProperty("--hero-far-x", "0px")
+  element?.style.setProperty("--hero-far-y", "0px")
+  element?.style.setProperty("--hero-mid-x", "0px")
+  element?.style.setProperty("--hero-mid-y", "0px")
+  element?.style.setProperty("--hero-near-x", "0px")
+  element?.style.setProperty("--hero-near-y", "0px")
+}
+
+function applyHeroPointer(element: HTMLElement | null, pointer: PointerPosition) {
+  if (!element) {
+    return
+  }
+
+  const rect = element.getBoundingClientRect()
+  const isInside =
+    pointer.clientX >= rect.left &&
+    pointer.clientX <= rect.right &&
+    pointer.clientY >= rect.top &&
+    pointer.clientY <= rect.bottom
+
+  if (!isInside) {
+    resetHeroBackground(element)
+    return
+  }
+
+  const x = pointer.clientX - rect.left
+  const y = pointer.clientY - rect.top
+  const xRatio = x / rect.width - 0.5
+  const yRatio = y / rect.height - 0.5
+
+  element.style.setProperty("--hero-x", `${Math.round((x / rect.width) * 100)}%`)
+  element.style.setProperty("--hero-y", `${Math.round((y / rect.height) * 100)}%`)
+  element.style.setProperty("--hero-far-x", `${xRatio * -10}px`)
+  element.style.setProperty("--hero-far-y", `${yRatio * -10}px`)
+  element.style.setProperty("--hero-mid-x", `${xRatio * -24}px`)
+  element.style.setProperty("--hero-mid-y", `${yRatio * -24}px`)
+  element.style.setProperty("--hero-near-x", `${xRatio * -44}px`)
+  element.style.setProperty("--hero-near-y", `${yRatio * -44}px`)
+}
+
 export function Home() {
+  const heroRef = useRef<HTMLElement>(null)
+  const lastPointerRef = useRef<PointerPosition | null>(null)
   const heroStyle = {
     "--hero-x": "58%",
     "--hero-y": "38%",
+    "--hero-far-x": "0px",
+    "--hero-far-y": "0px",
+    "--hero-mid-x": "0px",
+    "--hero-mid-y": "0px",
+    "--hero-near-x": "0px",
+    "--hero-near-y": "0px",
   } as CSSProperties
+
+  useEffect(() => {
+    function handleScroll() {
+      const pointer = lastPointerRef.current
+
+      if (!pointer) {
+        resetHeroBackground(heroRef.current)
+        return
+      }
+
+      window.requestAnimationFrame(() => {
+        applyHeroPointer(heroRef.current, pointer)
+      })
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   function handleHeroPointerMove(event: PointerEvent<HTMLElement>) {
     if (event.pointerType === "touch") {
       return
     }
 
-    const rect = event.currentTarget.getBoundingClientRect()
-    event.currentTarget.style.setProperty(
-      "--hero-x",
-      `${Math.round(((event.clientX - rect.left) / rect.width) * 100)}%`,
-    )
-    event.currentTarget.style.setProperty(
-      "--hero-y",
-      `${Math.round(((event.clientY - rect.top) / rect.height) * 100)}%`,
-    )
+    lastPointerRef.current = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    }
+    applyHeroPointer(event.currentTarget, lastPointerRef.current)
   }
 
   function handleHeroPointerLeave(event: PointerEvent<HTMLElement>) {
-    event.currentTarget.style.setProperty("--hero-x", "58%")
-    event.currentTarget.style.setProperty("--hero-y", "38%")
+    lastPointerRef.current = null
+    resetHeroBackground(event.currentTarget)
   }
 
   return (
     <main>
       <section
+        ref={heroRef}
         style={heroStyle}
         onPointerMove={handleHeroPointerMove}
         onPointerLeave={handleHeroPointerLeave}
+        onWheel={() => {
+          const pointer = lastPointerRef.current
+
+          if (!pointer) {
+            resetHeroBackground(heroRef.current)
+            return
+          }
+
+          window.requestAnimationFrame(() => {
+            applyHeroPointer(heroRef.current, pointer)
+          })
+        }}
         className="relative isolate overflow-hidden"
       >
         <InteractiveHeroBackground />
@@ -76,7 +159,7 @@ export function Home() {
             initial="hidden"
             animate="show"
             variants={staggerContainer}
-            className="max-w-3xl"
+            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md sm:p-7"
           >
             <motion.div
               variants={staggerItem}

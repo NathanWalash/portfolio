@@ -1,3 +1,5 @@
+import profileImageSrc from "@/assets/pfp.jpg"
+
 export type SocialLink = {
   label: "GitHub" | "LinkedIn"
   href: string
@@ -20,7 +22,7 @@ export const profile = {
     "Junior Software Developer experience across React, Node.js, Solidity, Laravel, and databases",
   ],
   profileImage: {
-    src: "",
+    src: profileImageSrc,
     alt: "Nathan Walsh profile photo",
   },
   socials: {
