@@ -7,16 +7,17 @@ import {
   Sparkles,
 } from "lucide-react"
 import { motion } from "motion/react"
+import { useEffect, useRef, type CSSProperties, type PointerEvent } from "react"
 import { Link } from "react-router-dom"
 
-import {
-  Reveal,
-} from "@/components/animation/Reveal"
+import { Reveal } from "@/components/animation/Reveal"
 import {
   liftHover,
   staggerContainer,
   staggerItem,
 } from "@/components/animation/motionPresets"
+import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
+import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
 import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -34,123 +35,230 @@ import { cn } from "@/lib/utils"
 
 const featuredProjects = getFeaturedProjects()
 
+type PointerPosition = {
+  clientX: number
+  clientY: number
+}
+
+function resetHeroBackground(element: HTMLElement | null) {
+  element?.style.setProperty("--hero-x", "58%")
+  element?.style.setProperty("--hero-y", "38%")
+  element?.style.setProperty("--hero-far-x", "0px")
+  element?.style.setProperty("--hero-far-y", "0px")
+  element?.style.setProperty("--hero-mid-x", "0px")
+  element?.style.setProperty("--hero-mid-y", "0px")
+  element?.style.setProperty("--hero-near-x", "0px")
+  element?.style.setProperty("--hero-near-y", "0px")
+}
+
+function applyHeroPointer(element: HTMLElement | null, pointer: PointerPosition) {
+  if (!element) {
+    return
+  }
+
+  const rect = element.getBoundingClientRect()
+  const isInside =
+    pointer.clientX >= rect.left &&
+    pointer.clientX <= rect.right &&
+    pointer.clientY >= rect.top &&
+    pointer.clientY <= rect.bottom
+
+  if (!isInside) {
+    resetHeroBackground(element)
+    return
+  }
+
+  const x = pointer.clientX - rect.left
+  const y = pointer.clientY - rect.top
+  const xRatio = x / rect.width - 0.5
+  const yRatio = y / rect.height - 0.5
+
+  element.style.setProperty("--hero-x", `${Math.round((x / rect.width) * 100)}%`)
+  element.style.setProperty("--hero-y", `${Math.round((y / rect.height) * 100)}%`)
+  element.style.setProperty("--hero-far-x", `${xRatio * -10}px`)
+  element.style.setProperty("--hero-far-y", `${yRatio * -10}px`)
+  element.style.setProperty("--hero-mid-x", `${xRatio * -24}px`)
+  element.style.setProperty("--hero-mid-y", `${yRatio * -24}px`)
+  element.style.setProperty("--hero-near-x", `${xRatio * -44}px`)
+  element.style.setProperty("--hero-near-y", `${yRatio * -44}px`)
+}
+
 export function Home() {
+  const heroRef = useRef<HTMLElement>(null)
+  const lastPointerRef = useRef<PointerPosition | null>(null)
+  const heroStyle = {
+    "--hero-x": "58%",
+    "--hero-y": "38%",
+    "--hero-far-x": "0px",
+    "--hero-far-y": "0px",
+    "--hero-mid-x": "0px",
+    "--hero-mid-y": "0px",
+    "--hero-near-x": "0px",
+    "--hero-near-y": "0px",
+  } as CSSProperties
+
+  useEffect(() => {
+    function handleScroll() {
+      const pointer = lastPointerRef.current
+
+      if (!pointer) {
+        resetHeroBackground(heroRef.current)
+        return
+      }
+
+      window.requestAnimationFrame(() => {
+        applyHeroPointer(heroRef.current, pointer)
+      })
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  function handleHeroPointerMove(event: PointerEvent<HTMLElement>) {
+    if (event.pointerType === "touch") {
+      return
+    }
+
+    lastPointerRef.current = {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    }
+    applyHeroPointer(event.currentTarget, lastPointerRef.current)
+  }
+
+  function handleHeroPointerLeave(event: PointerEvent<HTMLElement>) {
+    lastPointerRef.current = null
+    resetHeroBackground(event.currentTarget)
+  }
+
   return (
     <main>
-      <section className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <motion.div
-          initial="hidden"
-          animate="show"
-          variants={staggerContainer}
-          className="max-w-3xl"
-        >
+      <section
+        ref={heroRef}
+        style={heroStyle}
+        onPointerMove={handleHeroPointerMove}
+        onPointerLeave={handleHeroPointerLeave}
+        onWheel={() => {
+          const pointer = lastPointerRef.current
+
+          if (!pointer) {
+            resetHeroBackground(heroRef.current)
+            return
+          }
+
+          window.requestAnimationFrame(() => {
+            applyHeroPointer(heroRef.current, pointer)
+          })
+        }}
+        className="relative isolate overflow-hidden"
+      >
+        <InteractiveHeroBackground />
+        <div className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_23rem]">
           <motion.div
-            variants={staggerItem}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-sm text-muted-foreground shadow-sm"
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md sm:p-7"
           >
-            <Sparkles className="size-4 text-primary" aria-hidden="true" />
-            {profile.title}
-          </motion.div>
-
-          <motion.h1
-            variants={staggerItem}
-            className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
-          >
-            {profile.name}
-          </motion.h1>
-
-          <motion.p
-            variants={staggerItem}
-            className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8"
-          >
-            {profile.summary}
-          </motion.p>
-
-          <motion.div
-            variants={staggerItem}
-            className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
-          >
-            <Button asChild size="lg" className="w-full min-[420px]:w-auto">
-              <Link to="/projects">
-                View projects
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="w-full min-[420px]:w-auto"
+            <motion.div
+              variants={staggerItem}
+              className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card/90 px-3 py-1 text-sm text-muted-foreground shadow-sm backdrop-blur"
             >
-              <a
-                href={profile.socials.github.href}
-                target="_blank"
-                rel="noreferrer"
+              <Sparkles className="size-4 text-primary" aria-hidden="true" />
+              {profile.title}
+            </motion.div>
+
+            <motion.h1
+              variants={staggerItem}
+              className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
+            >
+              {profile.name}
+            </motion.h1>
+
+            <motion.p
+              variants={staggerItem}
+              className="mt-5 max-w-2xl text-pretty text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8"
+            >
+              {profile.summary}
+            </motion.p>
+
+            <motion.div
+              variants={staggerItem}
+              className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap"
+            >
+              <Button asChild size="lg" className="w-full min-[420px]:w-auto">
+                <Link to="/projects">
+                  View projects
+                  <ArrowRight aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="w-full min-[420px]:w-auto"
               >
-                <Code2 aria-hidden="true" />
-                GitHub
-              </a>
-            </Button>
-            <Button
-              asChild
-              variant="ghost"
-              size="lg"
-              className="w-full min-[420px]:w-auto"
-            >
-              <a href="#contact">
-                <Mail aria-hidden="true" />
-                Contact
-              </a>
-            </Button>
+                <a
+                  href={profile.socials.github.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Code2 aria-hidden="true" />
+                  GitHub
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="ghost"
+                size="lg"
+                className="w-full min-[420px]:w-auto"
+              >
+                <a href="#contact">
+                  <Mail aria-hidden="true" />
+                  Contact
+                </a>
+              </Button>
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        <motion.aside
-          aria-label="Profile snapshot"
-          initial={{ opacity: 0, scale: 0.96, y: 14 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
-          whileHover={liftHover}
-          className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card p-4 shadow-lg shadow-foreground/5 lg:mx-0"
-        >
-          <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-border bg-muted/50 sm:aspect-square">
-            {profile.profileImage.src ? (
-              <img
-                src={profile.profileImage.src}
-                alt={profile.profileImage.alt}
-                className="size-full object-cover"
-              />
-            ) : (
-              <div className="grid size-24 place-items-center rounded-lg border border-border bg-background text-3xl font-semibold">
-                {profile.initials}
+          <motion.aside
+            aria-label="Profile snapshot"
+            initial={{ opacity: 0, scale: 0.96, y: 14 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
+            whileHover={liftHover}
+            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur lg:mx-0"
+          >
+            <ProfileSystemPanel />
+
+            <div className="mt-5">
+              <h2 className="text-xl font-semibold tracking-normal">
+                {profile.name}
+              </h2>
+              <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="size-4" aria-hidden="true" />
+                {profile.location}
               </div>
-            )}
-          </div>
-
-          <div className="mt-5">
-            <h2 className="text-xl font-semibold tracking-normal">{profile.name}</h2>
-            <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-              <MapPin className="size-4" aria-hidden="true" />
-              {profile.location}
             </div>
-          </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-2">
-            {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
-              <span
-                key={item}
-                className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
+            <div className="mt-5 grid grid-cols-2 gap-2">
+              {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
 
-          <div className="mt-5 grid gap-2">
-            <SocialButton icon="code" social={profile.socials.github} />
-            <SocialButton icon="external" social={profile.socials.linkedin} />
-          </div>
-        </motion.aside>
+            <div className="mt-5 grid gap-2">
+              <SocialButton icon="code" social={profile.socials.github} />
+              <SocialButton icon="external" social={profile.socials.linkedin} />
+            </div>
+          </motion.aside>
+        </div>
       </section>
 
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">

@@ -14,10 +14,10 @@ const navLinks = [
 export function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75">
-      <div className="mx-auto flex min-h-16 w-full max-w-6xl flex-wrap items-center gap-2 px-4 py-3 sm:gap-3 sm:px-8">
+      <div className="mx-auto grid min-h-16 w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-3 sm:flex sm:gap-3 sm:px-8">
         <Link
           to="/"
-          className="mr-auto inline-flex min-w-0 items-center gap-2 rounded-lg text-sm font-semibold tracking-normal text-foreground outline-none transition-colors hover:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="inline-flex min-w-0 items-center gap-2 rounded-lg text-sm font-semibold tracking-normal text-foreground outline-none transition-colors hover:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50 sm:mr-auto"
           aria-label="Home"
         >
           <span className="grid size-8 place-items-center rounded-lg border border-border bg-card">
@@ -28,7 +28,7 @@ export function Navbar() {
 
         <nav
           aria-label="Main navigation"
-          className="order-3 -mx-1 flex w-full items-center gap-1 overflow-x-auto px-1 sm:order-none sm:mx-0 sm:w-auto sm:overflow-visible sm:px-0"
+          className="order-3 col-span-2 grid w-full grid-cols-3 gap-1 rounded-lg bg-muted/70 p-1 sm:order-none sm:col-span-1 sm:flex sm:w-auto sm:bg-transparent sm:p-0"
         >
           {navLinks.map((link) => (
             <NavLink
@@ -37,8 +37,8 @@ export function Navbar() {
               end={link.end}
               className={({ isActive }) =>
                 cn(
-                  "rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50",
-                  isActive && "bg-muted text-foreground",
+                  "min-w-0 rounded-lg px-2.5 py-2 text-center text-sm font-medium text-muted-foreground transition-colors hover:bg-background/80 hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 sm:px-3 sm:text-left sm:hover:bg-muted",
+                  isActive && "bg-background text-foreground shadow-sm sm:bg-muted sm:shadow-none",
                 )
               }
             >
@@ -47,7 +47,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 sm:ml-0">
+        <div className="flex items-center justify-end gap-2 sm:ml-0">
           <Button asChild variant="outline" size="sm" className="hidden min-[540px]:inline-flex">
             <a href={profile.socials.github.href} target="_blank" rel="noreferrer">
               <Code2 aria-hidden="true" />

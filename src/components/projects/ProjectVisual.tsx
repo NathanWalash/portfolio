@@ -11,6 +11,7 @@ const visualStyles = {
     accent: "bg-sky-500",
     secondary: "bg-emerald-500",
     Icon: Database,
+    signal: "indexed endpoints",
   },
   Algorithms: {
     panel:
@@ -18,6 +19,7 @@ const visualStyles = {
     accent: "bg-violet-500",
     secondary: "bg-cyan-500",
     Icon: Search,
+    signal: "ranked results",
   },
   "ML Product": {
     panel:
@@ -25,6 +27,7 @@ const visualStyles = {
     accent: "bg-rose-500",
     secondary: "bg-amber-500",
     Icon: LineChart,
+    signal: "forecast flow",
   },
   Blockchain: {
     panel:
@@ -32,6 +35,7 @@ const visualStyles = {
     accent: "bg-lime-500",
     secondary: "bg-indigo-500",
     Icon: Blocks,
+    signal: "module router",
   },
 } satisfies Record<
   Project["category"],
@@ -40,6 +44,7 @@ const visualStyles = {
     accent: string
     secondary: string
     Icon: typeof Blocks
+    signal: string
   }
 >
 
@@ -96,15 +101,20 @@ export function ProjectVisual({
                   {project.category}
                 </p>
               </div>
-              <div className="grid size-9 shrink-0 place-items-center rounded-lg border border-border bg-background">
+              <motion.div
+                className="grid size-9 shrink-0 place-items-center rounded-lg border border-border bg-background"
+                whileInView={{ scale: [0.96, 1.05, 1] }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, ease: "easeOut", delay: 0.12 }}
+              >
                 <Icon className="size-4" aria-hidden="true" />
-              </div>
+              </motion.div>
             </div>
 
             <div className="mt-4 grid gap-2">
               {visibleStack.map((item, index) => (
                 <div key={item} className="flex items-center gap-2">
-                  <span
+                  <motion.span
                     className={cn(
                       "h-2 rounded-full",
                       index % 2 === 0 ? visual.accent : visual.secondary,
@@ -116,6 +126,15 @@ export function ProjectVisual({
                             ? "w-5/12"
                             : "w-7/12",
                     )}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.45,
+                      ease: "easeOut",
+                      delay: 0.16 + index * 0.07,
+                    }}
+                    style={{ transformOrigin: "left" }}
                   />
                   <span className="truncate text-xs text-muted-foreground">
                     {item}
@@ -124,7 +143,13 @@ export function ProjectVisual({
               ))}
             </div>
 
-            <div className="absolute bottom-4 right-4 hidden size-7 place-items-center rounded-lg border border-border bg-background/80 text-muted-foreground min-[420px]:grid">
+            <div className="absolute bottom-4 right-4 hidden items-center gap-2 rounded-lg border border-border bg-background/80 px-2 py-1 text-xs text-muted-foreground min-[420px]:flex">
+              <motion.span
+                className={cn("size-1.5 rounded-full", visual.secondary)}
+                animate={{ opacity: [0.35, 1, 0.35] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+              />
+              {visual.signal}
               <ImageIcon className="size-3" aria-hidden="true" />
             </div>
           </motion.div>

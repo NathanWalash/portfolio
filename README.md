@@ -30,7 +30,7 @@ Build a clean, fast, personal developer portfolio that feels custom rather than 
 - shadcn/ui buttons, cards, badges, and tabs
 - Subtle Motion animations
 - GitHub and live demo links
-- `mailto:` contact call to action
+- LinkedIn and GitHub contact links
 - Vercel deployment
 
 Out of scope for version 1:
