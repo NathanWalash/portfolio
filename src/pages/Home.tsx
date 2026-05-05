@@ -1,9 +1,13 @@
 import {
   ArrowRight,
+  BrainCircuit,
+  Braces,
   Code2,
   ExternalLink,
+  GitBranch,
   Mail,
   MapPin,
+  Server,
   Sparkles,
 } from "lucide-react"
 import { motion } from "motion/react"
@@ -16,6 +20,7 @@ import {
   staggerContainer,
   staggerItem,
 } from "@/components/animation/motionPresets"
+import { TiltCard } from "@/components/animation/TiltCard"
 import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
 import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
 import { Badge } from "@/components/ui/badge"
@@ -33,6 +38,25 @@ import { skills } from "@/data/skills"
 import { cn } from "@/lib/utils"
 
 const featuredProjects = getFeaturedProjects()
+
+const skillVisuals = {
+  Programming: {
+    Icon: Braces,
+    detail: "Languages for app logic, data work, systems, and contracts.",
+  },
+  "Web & Backend": {
+    Icon: Server,
+    detail: "Frontend flows, backend APIs, and production-style services.",
+  },
+  "Data & ML": {
+    Icon: BrainCircuit,
+    detail: "Forecasting, analysis, vector search, and data-heavy tools.",
+  },
+  "Workflow & Tools": {
+    Icon: GitBranch,
+    detail: "Delivery habits around Git, CI, deployment, and local tooling.",
+  },
+}
 
 type PointerPosition = {
   clientX: number
@@ -115,10 +139,6 @@ export function Home() {
   }, [])
 
   function handleHeroPointerMove(event: PointerEvent<HTMLElement>) {
-    if (event.pointerType === "touch") {
-      return
-    }
-
     lastPointerRef.current = {
       clientX: event.clientX,
       clientY: event.clientY,
@@ -131,13 +151,25 @@ export function Home() {
     resetHeroBackground(event.currentTarget)
   }
 
+  function handleHeroPointerEnd(event: PointerEvent<HTMLElement>) {
+    if (event.pointerType === "mouse") {
+      return
+    }
+
+    lastPointerRef.current = null
+    resetHeroBackground(event.currentTarget)
+  }
+
   return (
     <main>
       <section
         ref={heroRef}
         style={heroStyle}
         onPointerMove={handleHeroPointerMove}
+        onPointerDown={handleHeroPointerMove}
         onPointerLeave={handleHeroPointerLeave}
+        onPointerUp={handleHeroPointerEnd}
+        onPointerCancel={handleHeroPointerEnd}
         onWheel={() => {
           const pointer = lastPointerRef.current
 
@@ -253,9 +285,9 @@ export function Home() {
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
           <Reveal className="max-w-2xl">
-            <p className="text-sm font-medium text-muted-foreground">Skills</p>
+            <p className="text-sm font-medium text-muted-foreground">Stack</p>
             <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
-              Tools and technologies I am building with.
+              Tools I use to move from idea to working software.
             </h2>
           </Reveal>
 
@@ -264,28 +296,14 @@ export function Home() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
-            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
-            {skills.map((group) => (
+            {skills.map((group, index) => (
               <motion.div
                 key={group.category}
                 variants={staggerItem}
-                whileHover={liftHover}
               >
-                <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-                  <CardHeader>
-                    <CardTitle aria-level={3} role="heading">
-                      {group.category}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <Badge key={item} variant="secondary">
-                        {item}
-                      </Badge>
-                    ))}
-                  </CardContent>
-                </Card>
+                <SkillClusterCard group={group} index={index} />
               </motion.div>
             ))}
           </motion.div>
@@ -369,26 +387,112 @@ export function Home() {
 
 function CompactProjectCard({ project }: { project: Project }) {
   return (
-    <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-      <CardHeader>
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="outline">{project.category}</Badge>
-          <Badge variant="secondary">{project.stack[0]}</Badge>
-        </div>
-        <CardTitle aria-level={3} role="heading">
-          {project.title}
-        </CardTitle>
-        <CardDescription>{project.description}</CardDescription>
-      </CardHeader>
-      <CardContent className="mt-auto">
-        <Button asChild variant="outline" className="w-full">
-          <Link to={`/projects/${project.slug}`}>
-            View case study
-            <ArrowRight aria-hidden="true" />
-          </Link>
-        </Button>
-      </CardContent>
-    </Card>
+    <TiltCard>
+      <Card className="group relative isolate h-full overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-xl hover:shadow-[oklch(0.62_0.2_305_/_0.12)]">
+        <div className="absolute inset-0 -z-10 opacity-60 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.15)_1px,transparent_1.8px)] [background-size:18px_18px]" />
+        <CardHeader>
+          <div className="mb-1 overflow-hidden rounded-lg border border-border bg-background/80 p-3">
+            <div className="mb-3 flex items-center gap-1.5">
+              <span className="size-2 rounded-full bg-[oklch(0.62_0.2_305)]" />
+              <span className="size-2 rounded-full bg-muted-foreground/25" />
+              <span className="size-2 rounded-full bg-muted-foreground/20" />
+            </div>
+            <div className="grid gap-2">
+              {[0, 1, 2].map((item) => (
+                <motion.span
+                  key={item}
+                  initial={{ scaleX: 0.55 }}
+                  whileInView={{ scaleX: 1 }}
+                  whileHover={{ scaleX: 1.04 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: 0.45,
+                    ease: [0.16, 1, 0.3, 1],
+                    delay: item * 0.06,
+                  }}
+                  style={{ transformOrigin: "left" }}
+                  className={cn(
+                    "h-2 rounded-full bg-[oklch(0.62_0.2_305_/_0.32)]",
+                    item === 0 ? "w-3/4" : item === 1 ? "w-1/2" : "w-5/6",
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge variant="outline">{project.category}</Badge>
+            <Badge variant="secondary">{project.stack[0]}</Badge>
+          </div>
+          <CardTitle aria-level={3} role="heading">
+            {project.title}
+          </CardTitle>
+          <CardDescription>{project.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="mt-auto">
+          <Button asChild variant="outline" className="w-full">
+            <Link to={`/projects/${project.slug}`}>
+              View case study
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
+    </TiltCard>
+  )
+}
+
+function SkillClusterCard({
+  group,
+  index,
+}: {
+  group: (typeof skills)[number]
+  index: number
+}) {
+  const visual =
+    skillVisuals[group.category as keyof typeof skillVisuals] ?? skillVisuals.Programming
+  const Icon = visual.Icon
+
+  return (
+    <TiltCard>
+      <Card className="group relative isolate h-full overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-xl hover:shadow-[oklch(0.62_0.2_305_/_0.1)]">
+        <div className="absolute inset-0 -z-10 opacity-45 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.18)_1px,transparent_1.9px)] [background-size:20px_20px]" />
+        <div className="absolute inset-x-4 top-0 h-px origin-left scale-x-0 bg-[oklch(0.62_0.2_305)] transition-transform duration-300 group-hover:scale-x-100" />
+        <CardHeader>
+          <div className="flex items-start justify-between gap-3">
+            <div className="grid size-10 place-items-center rounded-lg border border-[oklch(0.62_0.2_305_/_0.22)] bg-[oklch(0.62_0.2_305_/_0.08)] text-foreground">
+              <Icon className="size-4" aria-hidden="true" />
+            </div>
+            <span className="text-xs font-medium text-muted-foreground">
+              0{index + 1}
+            </span>
+          </div>
+          <CardTitle aria-level={3} role="heading">
+            {group.category}
+          </CardTitle>
+          <CardDescription>{visual.detail}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            className="flex flex-wrap gap-2"
+          >
+            {group.items.map((item) => (
+              <motion.div
+                key={item}
+                variants={staggerItem}
+                whileHover={{ y: -2, scale: 1.03 }}
+                transition={{ duration: 0.18 }}
+              >
+                <Badge variant="secondary">{item}</Badge>
+              </motion.div>
+            ))}
+          </motion.div>
+        </CardContent>
+      </Card>
+    </TiltCard>
   )
 }
 

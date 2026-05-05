@@ -8,11 +8,12 @@ import {
   Sparkles,
   Trophy,
 } from "lucide-react"
-import { motion } from "motion/react"
+import { motion, useScroll, useSpring } from "motion/react"
+import { useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
-import { staggerContainer, staggerItem } from "@/components/animation/motionPresets"
+import { staggerContainer } from "@/components/animation/motionPresets"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -23,13 +24,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { profile } from "@/data/profile"
-import { cn } from "@/lib/utils"
-
-const snapshotItems = [
-  { label: "Current", value: "Final-year CS with AI" },
-  { label: "Based", value: "United Kingdom" },
-  { label: "Focus", value: "Full-stack software" },
-]
 
 const timeline = [
   {
@@ -39,9 +33,6 @@ const timeline = [
     description:
       "Developing a physics-aware machine learning framework for modelling drug diffusion through human skin, combining a PDE solver with black-box and constrained neural networks.",
     Icon: Sparkles,
-    accent: "bg-fuchsia-500",
-    softAccent: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300",
-    side: "left",
   },
   {
     date: "2026",
@@ -50,9 +41,6 @@ const timeline = [
     description:
       "Built a time-series forecasting product with a guided upload, modelling, visual review, and story-style interpretation flow for communicating decisions.",
     Icon: Trophy,
-    accent: "bg-amber-500",
-    softAccent: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
-    side: "right",
   },
   {
     date: "Summer 2025",
@@ -61,9 +49,6 @@ const timeline = [
     description:
       "Selected after a hackathon win to help turn the prototype into production-facing software, working across React, Node.js, Solidity, Hardhat, Laravel, MariaDB, architecture, deployment, and UX iteration.",
     Icon: BriefcaseBusiness,
-    accent: "bg-emerald-500",
-    softAccent: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-    side: "left",
   },
   {
     date: "2025",
@@ -72,9 +57,6 @@ const timeline = [
     description:
       "Created a blockchain-based DAO marketplace prototype with smart contracts, later evolving the idea into a more modular DAO factory architecture.",
     Icon: Network,
-    accent: "bg-violet-500",
-    softAccent: "bg-violet-500/10 text-violet-700 dark:text-violet-300",
-    side: "right",
   },
   {
     date: "Summer 2024",
@@ -83,9 +65,6 @@ const timeline = [
     description:
       "Researched, queried, and validated sports sponsorship datasets for market intelligence and client-facing analysis, using SQL and structured data workflows.",
     Icon: Database,
-    accent: "bg-sky-500",
-    softAccent: "bg-sky-500/10 text-sky-700 dark:text-sky-300",
-    side: "left",
   },
   {
     date: "2023 - 2026",
@@ -94,9 +73,6 @@ const timeline = [
     description:
       "Studying software engineering, algorithms and data structures, AI and machine learning, databases, operating systems, networks, secure computing, robotics, and graphics.",
     Icon: GraduationCap,
-    accent: "bg-cyan-500",
-    softAccent: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
-    side: "right",
   },
   {
     date: "Oct 2022 - Apr 2023",
@@ -105,29 +81,35 @@ const timeline = [
     description:
       "Researched and maintained video game metadata for strategic analytics and industry reporting, while building Python automation tools for collection, cleansing, and validation workflows before starting university.",
     Icon: Database,
-    accent: "bg-rose-500",
-    softAccent: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
-    side: "left",
   },
 ] as const
 
 export function About() {
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 65%"],
+  })
+  const lineScaleY = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    mass: 0.35,
+  })
+
   return (
     <main className="min-h-[calc(100svh-4rem)]">
       <section className="px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
+        <div className="mx-auto w-full max-w-6xl">
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
-              A full-stack developer building practical software across web,
-              AI, data, and smart contracts.
+              About me.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-              I am a final-year Computer Science with Artificial Intelligence
-              student at the University of Leeds. I like projects where the
-              interesting part is making the whole system work: product flow,
-              backend logic, data, model behaviour, deployment, and the small
-              details users actually notice.
+              I am from Cambridge and now based in Leeds, where I study
+              Computer Science with Artificial Intelligence at the University of
+              Leeds. I have a passion for full-stack software engineering, both
+              as a hobby and professionally.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
@@ -150,48 +132,6 @@ export function About() {
               </Button>
             </div>
           </Reveal>
-
-          <motion.aside
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.42, ease: "easeOut", delay: 0.08 }}
-            aria-label="Profile snapshot"
-          >
-            <Card className="rounded-lg">
-              <CardContent className="pt-0">
-                <div className="overflow-hidden rounded-lg border border-border bg-muted/50">
-                  <img
-                    src={profile.profileImage.src}
-                    alt={profile.profileImage.alt}
-                    className="aspect-square size-full object-cover object-center"
-                  />
-                </div>
-                <div className="mt-4">
-                  <h2 className="text-xl font-semibold tracking-normal">
-                    {profile.name}
-                  </h2>
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {profile.summary}
-                  </p>
-                </div>
-                <div className="mt-4 grid gap-2">
-                  {snapshotItems.map((item) => (
-                    <div
-                      key={item.label}
-                      className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2"
-                    >
-                      <span className="text-xs text-muted-foreground">
-                        {item.label}
-                      </span>
-                      <span className="text-right text-xs font-medium">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.aside>
         </div>
       </section>
 
@@ -211,15 +151,16 @@ export function About() {
             </p>
           </Reveal>
 
-          <div className="relative mt-10 sm:mt-12">
-            <motion.div
+          <div ref={timelineRef} className="relative mt-10 max-w-4xl sm:mt-12">
+            <div
               aria-hidden="true"
-              initial={{ scaleY: 0 }}
-              whileInView={{ scaleY: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute bottom-0 left-4 top-0 w-px origin-top bg-gradient-to-b from-fuchsia-500 via-sky-500 to-rose-500 md:left-1/2"
-            />
+              className="absolute bottom-3 left-4 top-3 w-px bg-[oklch(0.62_0.2_305_/_0.18)]"
+            >
+              <motion.span
+                style={{ scaleY: lineScaleY }}
+                className="absolute inset-x-0 top-0 h-full origin-top bg-[oklch(0.62_0.2_305)] shadow-[0_0_18px_oklch(0.62_0.2_305_/_0.35)]"
+              />
+            </div>
 
             <motion.ol
               variants={staggerContainer}
@@ -273,25 +214,36 @@ export function About() {
 
 function TimelineItem({ item }: { item: (typeof timeline)[number] }) {
   const Icon = item.Icon
-  const isLeft = item.side === "left"
 
   return (
     <motion.li
-      variants={staggerItem}
-      className="relative list-none md:grid md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:gap-5"
+      initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: false, amount: 0.42, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+      className="relative list-none pl-12"
     >
-      <div
-        className={cn(
-          "ml-12 md:ml-0",
-          isLeft ? "md:col-start-1" : "md:col-start-3",
-        )}
+      <motion.div
+        initial={{ scale: 0.82 }}
+        whileInView={{ scale: [0.82, 1.08, 1] }}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="absolute left-0 top-4 z-10 grid size-8 place-items-center rounded-lg border border-[oklch(0.62_0.2_305_/_0.28)] bg-background text-muted-foreground shadow-sm"
+      >
+        <Icon className="size-4" aria-hidden="true" />
+      </motion.div>
+
+      <motion.div
+        whileHover={{
+          y: -3,
+          boxShadow: "0 18px 40px oklch(0.62 0.2 305 / 0.12)",
+        }}
+        transition={{ duration: 0.2 }}
       >
         <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
           <CardHeader>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge className={item.softAccent} variant="secondary">
-                {item.date}
-              </Badge>
+              <Badge variant="outline">{item.date}</Badge>
               <CardDescription>{item.meta}</CardDescription>
             </div>
             <CardTitle aria-level={3} role="heading">
@@ -302,22 +254,6 @@ function TimelineItem({ item }: { item: (typeof timeline)[number] }) {
             {item.description}
           </CardContent>
         </Card>
-      </div>
-
-      <motion.div
-        initial={{ scale: 0.82 }}
-        whileInView={{ scale: [0.82, 1.08, 1] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.48, ease: "easeOut" }}
-        className="absolute left-0 top-4 z-10 grid size-8 place-items-center rounded-lg border border-border bg-background shadow-sm md:static md:col-start-2 md:row-start-1 md:mt-4 md:size-10"
-      >
-        <span
-          className={cn(
-            "absolute inset-1 rounded-md opacity-15 blur-sm",
-            item.accent,
-          )}
-        />
-        <Icon className="relative size-4 text-foreground" aria-hidden="true" />
       </motion.div>
     </motion.li>
   )

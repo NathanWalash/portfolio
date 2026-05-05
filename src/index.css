@@ -145,3 +145,21 @@
       }
     }
 }
+
+@keyframes hero-dot-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px -24px;
+  }
+}
+
+@keyframes hero-dot-drift-deep {
+  from {
+    background-position: -18px 12px;
+  }
+  to {
+    background-position: 26px 36px;
+  }
+}
