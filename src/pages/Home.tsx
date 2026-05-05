@@ -242,18 +242,8 @@ export function Home() {
               </div>
             </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-2">
-              {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
             <div className="mt-5 grid gap-2">
+              <SocialButton icon="mail" social={profile.socials.email} />
               <SocialButton icon="code" social={profile.socials.github} />
               <SocialButton icon="external" social={profile.socials.linkedin} />
             </div>
