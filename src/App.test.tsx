@@ -79,4 +79,21 @@ describe("App routing", () => {
       ).not.toBeInTheDocument()
     })
   })
+
+  it("renders a helpful not found route", () => {
+    renderRoute("/does-not-exist")
+    const main = within(screen.getByRole("main"))
+
+    expect(
+      screen.getByRole("heading", { name: /page not found/i }),
+    ).toBeInTheDocument()
+    expect(main.getByRole("link", { name: /^home$/i })).toHaveAttribute(
+      "href",
+      "/",
+    )
+    expect(main.getByRole("link", { name: /projects/i })).toHaveAttribute(
+      "href",
+      "/projects",
+    )
+  })
 })
