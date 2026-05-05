@@ -1,6 +1,7 @@
 import { Code2, Mail } from "lucide-react"
 import { Link, NavLink } from "react-router-dom"
 
+import { ThemeToggle } from "@/components/layout/ThemeToggle"
 import { Button } from "@/components/ui/button"
 import { profile } from "@/data/profile"
 import { cn } from "@/lib/utils"
@@ -48,6 +49,7 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center justify-end gap-2 sm:ml-0">
+          <ThemeToggle />
           <Button asChild variant="outline" size="sm" className="hidden min-[540px]:inline-flex">
             <a href={profile.socials.github.href} target="_blank" rel="noreferrer">
               <Code2 aria-hidden="true" />

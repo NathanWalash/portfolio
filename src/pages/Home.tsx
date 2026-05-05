@@ -21,6 +21,7 @@ import {
   staggerItem,
 } from "@/components/animation/motionPresets"
 import { TiltCard } from "@/components/animation/TiltCard"
+import { TypewriterText } from "@/components/animation/TypewriterText"
 import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
 import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
 import { Badge } from "@/components/ui/badge"
@@ -204,7 +205,7 @@ export function Home() {
               variants={staggerItem}
               className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
             >
-              {profile.name}
+              <TypewriterText text={profile.name} />
             </motion.h1>
 
             <motion.p
