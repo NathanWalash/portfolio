@@ -12,7 +12,7 @@ export const profile = {
   title: "Full-Stack Developer",
   location: "United Kingdom",
   summary:
-    "Final-year Computer Science with AI student building practical software across full-stack web, APIs, machine learning, and smart contracts.",
+    "Full-stack developer and final-year Computer Science with Artificial Intelligence student building practical software across web apps, backend systems, data workflows, and AI-assisted products.",
   contactNote:
     "Reach me by email, LinkedIn, or GitHub for professional contact.",
   highlights: [
@@ -37,7 +37,7 @@ export const profile = {
       external: true,
     },
     email: {
-      label: "hello@nathanwalsh.me",
+      label: "Email",
       href: "mailto:hello@nathanwalsh.me",
     },
   },
