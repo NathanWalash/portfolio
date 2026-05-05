@@ -1,7 +1,7 @@
 import profileImageSrc from "@/assets/pfp.jpg"
 
 export type SocialLink = {
-  label: "GitHub" | "LinkedIn" | "Email"
+  label: string
   href: string
   external?: boolean
 }
@@ -37,7 +37,7 @@ export const profile = {
       external: true,
     },
     email: {
-      label: "Email",
+      label: "hello@nathanwalsh.me",
       href: "mailto:hello@nathanwalsh.me",
     },
   },
