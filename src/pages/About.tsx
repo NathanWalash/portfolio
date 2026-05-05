@@ -4,15 +4,17 @@ import {
   Database,
   GraduationCap,
   Mail,
+  MapPin,
   Network,
   Sparkles,
   Trophy,
 } from "lucide-react"
-import { motion } from "motion/react"
+import { motion, useScroll, useSpring } from "motion/react"
+import { useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
-import { staggerContainer, staggerItem } from "@/components/animation/motionPresets"
+import { staggerContainer } from "@/components/animation/motionPresets"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -84,22 +86,32 @@ const timeline = [
 ] as const
 
 export function About() {
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start 75%", "end 65%"],
+  })
+  const lineScaleY = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    mass: 0.35,
+  })
+
   return (
     <main className="min-h-[calc(100svh-4rem)]">
       <section className="px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
-              A full-stack developer building practical software across web,
-              AI, data, and smart contracts.
+              About me.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-              I am a final-year Computer Science with Artificial Intelligence
-              student at the University of Leeds. I like projects where the
-              interesting part is making the whole system work: product flow,
-              backend logic, data, model behaviour, deployment, and the small
-              details users actually notice.
+              I am from Cambridge and now based in Leeds, where I study
+              Computer Science with Artificial Intelligence at the University of
+              Leeds. I like building full-stack software where the product flow,
+              backend logic, data, deployment, and small user-facing details all
+              have to come together properly.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
@@ -122,6 +134,44 @@ export function About() {
               </Button>
             </div>
           </Reveal>
+
+          <motion.aside
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            aria-label="About summary"
+          >
+            <Card className="relative isolate overflow-hidden rounded-lg">
+              <div className="absolute inset-0 -z-10 opacity-55 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.18)_1px,transparent_1.9px)] [background-size:18px_18px]" />
+              <CardHeader>
+                <CardDescription>Current base</CardDescription>
+                <CardTitle
+                  aria-level={2}
+                  role="heading"
+                  className="flex items-center gap-2"
+                >
+                  <MapPin className="size-4 text-muted-foreground" aria-hidden="true" />
+                  Cambridge to Leeds
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3 text-sm">
+                {[
+                  ["Studying", "BSc Computer Science with AI"],
+                  ["Building", "Full-stack apps, APIs, ML products"],
+                  ["Looking for", "Software engineering roles"],
+                ].map(([label, value]) => (
+                  <div
+                    key={label}
+                    className="flex items-center justify-between gap-3 rounded-lg border border-border bg-background/80 px-3 py-2 backdrop-blur"
+                  >
+                    <span className="text-muted-foreground">{label}</span>
+                    <span className="text-right font-medium">{value}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </motion.aside>
         </div>
       </section>
 
@@ -141,17 +191,14 @@ export function About() {
             </p>
           </Reveal>
 
-          <div className="relative mt-10 max-w-4xl sm:mt-12">
+          <div ref={timelineRef} className="relative mt-10 max-w-4xl sm:mt-12">
             <div
               aria-hidden="true"
-              className="absolute bottom-3 left-4 top-3 w-px bg-border"
+              className="absolute bottom-3 left-4 top-3 w-px bg-[oklch(0.62_0.2_305_/_0.18)]"
             >
               <motion.span
-                initial={{ scaleY: 0 }}
-                whileInView={{ scaleY: 1 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute inset-x-0 top-0 h-full origin-top bg-foreground/35"
+                style={{ scaleY: lineScaleY }}
+                className="absolute inset-x-0 top-0 h-full origin-top bg-[oklch(0.62_0.2_305)] shadow-[0_0_18px_oklch(0.62_0.2_305_/_0.35)]"
               />
             </div>
 
@@ -210,20 +257,29 @@ function TimelineItem({ item }: { item: (typeof timeline)[number] }) {
 
   return (
     <motion.li
-      variants={staggerItem}
+      initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      viewport={{ once: false, amount: 0.42, margin: "0px 0px -12% 0px" }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
       className="relative list-none pl-12"
     >
       <motion.div
         initial={{ scale: 0.82 }}
-        whileInView={{ scale: [0.82, 1.04, 1] }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.48, ease: "easeOut" }}
-        className="absolute left-0 top-4 z-10 grid size-8 place-items-center rounded-lg border border-border bg-background text-muted-foreground shadow-sm"
+        whileInView={{ scale: [0.82, 1.08, 1] }}
+        viewport={{ once: false, amount: 0.5 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="absolute left-0 top-4 z-10 grid size-8 place-items-center rounded-lg border border-[oklch(0.62_0.2_305_/_0.28)] bg-background text-muted-foreground shadow-sm"
       >
         <Icon className="size-4" aria-hidden="true" />
       </motion.div>
 
-      <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.2 }}>
+      <motion.div
+        whileHover={{
+          y: -3,
+          boxShadow: "0 18px 40px oklch(0.62 0.2 305 / 0.12)",
+        }}
+        transition={{ duration: 0.2 }}
+      >
         <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
           <CardHeader>
             <div className="flex flex-wrap items-center gap-2">
