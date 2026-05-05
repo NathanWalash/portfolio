@@ -16,11 +16,11 @@ const signalBars = ["w-8", "w-14", "w-11", "w-16", "w-10"]
 export function ProfileSystemPanel() {
   if (profile.profileImage.src) {
     return (
-      <div className="grid aspect-[4/3] place-items-center overflow-hidden rounded-lg border border-border bg-muted/50 sm:aspect-square">
+      <div className="grid aspect-square place-items-center overflow-hidden rounded-lg border border-border bg-muted/50">
         <img
           src={profile.profileImage.src}
           alt={profile.profileImage.alt}
-          className="size-full object-cover"
+          className="size-full object-cover object-center"
         />
       </div>
     )
