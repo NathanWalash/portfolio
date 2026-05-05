@@ -2,9 +2,7 @@ import { ArrowLeft, CheckCircle2, Code2, ExternalLink } from "lucide-react"
 import { motion } from "motion/react"
 import { Link, useParams } from "react-router-dom"
 
-import {
-  Reveal,
-} from "@/components/animation/Reveal"
+import { Reveal } from "@/components/animation/Reveal"
 import {
   liftHover,
   staggerContainer,
@@ -88,7 +86,8 @@ export function ProjectDetail() {
           transition={{ duration: 0.42, ease: "easeOut", delay: 0.08 }}
           whileHover={liftHover}
         >
-          <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+          <Card className="relative isolate overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-[oklch(0.62_0.2_305_/_0.1)]">
+            <div className="absolute inset-0 -z-10 opacity-45 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.16)_1px,transparent_1.9px)] [background-size:20px_20px]" />
             <CardHeader>
               <Badge variant="outline" className="w-fit">
                 {project.category}
@@ -122,7 +121,7 @@ export function ProjectDetail() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-80px" }}
-        className="relative mt-10 space-y-4 border-l border-border pl-5 sm:mt-12 sm:pl-7"
+        className="relative mt-10 space-y-4 border-l border-[oklch(0.62_0.2_305_/_0.22)] pl-5 sm:mt-12 sm:pl-7"
       >
         {sections.map((section, index) => (
           <motion.li
@@ -131,7 +130,7 @@ export function ProjectDetail() {
             whileHover={liftHover}
             className="relative list-none"
           >
-            <span className="absolute -left-[2.08rem] top-5 grid size-8 place-items-center rounded-lg border border-border bg-background text-xs font-medium text-muted-foreground sm:-left-[2.58rem]">
+            <span className="absolute -left-[2.08rem] top-5 grid size-8 place-items-center rounded-lg border border-[oklch(0.62_0.2_305_/_0.24)] bg-background text-xs font-medium text-muted-foreground shadow-sm sm:-left-[2.58rem]">
               {String(index + 1).padStart(2, "0")}
             </span>
             <InfoCard title={section.title} items={section.items} index={index} />
@@ -152,7 +151,7 @@ function InfoCard({
   index: number
 }) {
   return (
-    <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+    <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-[oklch(0.62_0.2_305_/_0.1)]">
       <CardHeader className="sm:flex sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle aria-level={2} role="heading">

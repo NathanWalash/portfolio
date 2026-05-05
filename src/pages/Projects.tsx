@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "motion/react"
 
 import { Reveal } from "@/components/animation/Reveal"
 import { ProjectCard } from "@/components/projects/ProjectCard"
-import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   projectCategories,
@@ -13,6 +12,14 @@ import {
 const filterOptions = ["All", ...projectCategories] as const
 
 type ProjectFilter = (typeof filterOptions)[number]
+
+const filterLabels: Record<ProjectFilter, string> = {
+  All: "All",
+  "Backend/API": "Backend / API",
+  Algorithms: "Algorithms",
+  "ML Product": "ML Product",
+  Blockchain: "Blockchain",
+}
 
 export function Projects() {
   const [activeFilter, setActiveFilter] = useState<ProjectFilter>("All")
@@ -27,27 +34,47 @@ export function Projects() {
         </h1>
         <p className="mt-5 text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
           Four focused projects that show backend API design, search algorithms,
-          forecasting product work, and smart-contract architecture.
+          forecasting product work, and modular systems architecture.
         </p>
       </Reveal>
 
-      <Reveal className="mt-8 flex flex-col gap-4 border-y border-border/80 py-5 sm:mt-10 sm:flex-row sm:items-center sm:justify-between">
-        <Tabs
-          value={activeFilter}
-          onValueChange={(value) => setActiveFilter(value as ProjectFilter)}
-        >
-          <TabsList className="h-auto max-w-full flex-wrap justify-start">
-            {filterOptions.map((option) => (
-              <TabsTrigger key={option} value={option} className="h-8 px-3">
-                {option}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+      <Reveal className="mt-8 sm:mt-10">
+        <div className="rounded-lg border border-border bg-card/80 p-3 shadow-sm shadow-foreground/5 backdrop-blur">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="min-w-0">
+              <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                Filter work
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Showing {filteredProjects.length} of {projects.length} projects
+              </p>
+            </div>
 
-        <Badge variant="secondary" className="w-fit">
-          {filteredProjects.length} of {projects.length} shown
-        </Badge>
+            <Tabs
+              value={activeFilter}
+              onValueChange={(value) => setActiveFilter(value as ProjectFilter)}
+              className="min-w-0"
+            >
+              <TabsList
+                aria-label="Project filters"
+                className="flex h-auto w-full max-w-full justify-start gap-2 overflow-x-auto bg-transparent p-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {filterOptions.map((option) => (
+                  <TabsTrigger
+                    key={option}
+                    value={option}
+                    className="h-10 flex-none rounded-full border border-border bg-background px-3.5 text-sm data-active:border-[oklch(0.62_0.2_305_/_0.34)] data-active:bg-[oklch(0.62_0.2_305_/_0.1)] data-active:text-foreground data-active:shadow-none"
+                  >
+                    <span>{filterLabels[option]}</span>
+                    <span className="rounded-full bg-muted px-1.5 py-0.5 text-[0.68rem] leading-none text-muted-foreground">
+                      {getProjectCount(option)}
+                    </span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          </div>
+        </div>
       </Reveal>
 
       <motion.div layout className="mt-10 grid gap-4 lg:grid-cols-2">
@@ -76,4 +103,8 @@ function getFilteredProjects(filter: ProjectFilter) {
   }
 
   return projects.filter((project) => project.category === filter)
+}
+
+function getProjectCount(filter: ProjectFilter) {
+  return getFilteredProjects(filter).length
 }
