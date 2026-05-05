@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   BriefcaseBusiness,
-  Code2,
   Database,
   GraduationCap,
   Mail,
@@ -13,11 +12,7 @@ import { motion } from "motion/react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
-import {
-  liftHover,
-  staggerContainer,
-  staggerItem,
-} from "@/components/animation/motionPresets"
+import { staggerContainer, staggerItem } from "@/components/animation/motionPresets"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,26 +22,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { projects } from "@/data/projects"
 import { profile } from "@/data/profile"
-import { skills } from "@/data/skills"
+import { cn } from "@/lib/utils"
 
-const proofStats = [
-  {
-    label: "Degree",
-    value: "BSc Computer Science with AI",
-    detail: "University of Leeds, predicted First Class",
-  },
-  {
-    label: "Wins",
-    value: "Leeds Hackathon 2025 + 2026",
-    detail: "Built winning Web3 and forecasting prototypes",
-  },
-  {
-    label: "Experience",
-    value: "Junior Software Developer",
-    detail: "React, Node.js, Solidity, Laravel, and databases",
-  },
+const snapshotItems = [
+  { label: "Current", value: "Final-year CS with AI" },
+  { label: "Based", value: "United Kingdom" },
+  { label: "Focus", value: "Full-stack software" },
 ]
 
 const timeline = [
@@ -57,6 +39,9 @@ const timeline = [
     description:
       "Developing a physics-aware machine learning framework for modelling drug diffusion through human skin, combining a PDE solver with black-box and constrained neural networks.",
     Icon: Sparkles,
+    accent: "bg-fuchsia-500",
+    softAccent: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300",
+    side: "left",
   },
   {
     date: "2026",
@@ -65,6 +50,9 @@ const timeline = [
     description:
       "Built a time-series forecasting product with a guided upload, modelling, visual review, and story-style interpretation flow for communicating decisions.",
     Icon: Trophy,
+    accent: "bg-amber-500",
+    softAccent: "bg-amber-500/10 text-amber-700 dark:text-amber-300",
+    side: "right",
   },
   {
     date: "Summer 2025",
@@ -73,6 +61,9 @@ const timeline = [
     description:
       "Selected after a hackathon win to help turn the prototype into production-facing software, working across React, Node.js, Solidity, Hardhat, Laravel, MariaDB, architecture, deployment, and UX iteration.",
     Icon: BriefcaseBusiness,
+    accent: "bg-emerald-500",
+    softAccent: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    side: "left",
   },
   {
     date: "2025",
@@ -81,14 +72,20 @@ const timeline = [
     description:
       "Created a blockchain-based DAO marketplace prototype with smart contracts, later evolving the idea into a more modular DAO factory architecture.",
     Icon: Network,
+    accent: "bg-violet-500",
+    softAccent: "bg-violet-500/10 text-violet-700 dark:text-violet-300",
+    side: "right",
   },
   {
-    date: "2024",
+    date: "Summer 2024",
     title: "Sports sponsorship metadata researcher",
     meta: "Ampere Analysis",
     description:
       "Researched, queried, and validated sports sponsorship datasets for market intelligence and client-facing analysis, using SQL and structured data workflows.",
     Icon: Database,
+    accent: "bg-sky-500",
+    softAccent: "bg-sky-500/10 text-sky-700 dark:text-sky-300",
+    side: "left",
   },
   {
     date: "2023 - 2026",
@@ -97,49 +94,40 @@ const timeline = [
     description:
       "Studying software engineering, algorithms and data structures, AI and machine learning, databases, operating systems, networks, secure computing, robotics, and graphics.",
     Icon: GraduationCap,
-  },
-]
-
-const workingStyle = [
-  {
-    title: "I like building complete systems",
-    description:
-      "The strongest projects here are not just interfaces or isolated scripts. They connect product flow, APIs, data modelling, deployment, and user-facing decisions.",
-    Icon: Code2,
+    accent: "bg-cyan-500",
+    softAccent: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300",
+    side: "right",
   },
   {
-    title: "I care about the engineering around the feature",
+    date: "Oct 2022 - Apr 2023",
+    title: "Games metadata researcher",
+    meta: "Ampere Analysis",
     description:
-      "Branches, CI, tests, typed data models, deployment notes, and clear tradeoffs matter because they make projects easier to trust and improve.",
-    Icon: Network,
+      "Researched and maintained video game metadata for strategic analytics and industry reporting, while building Python automation tools for collection, cleansing, and validation workflows before starting university.",
+    Icon: Database,
+    accent: "bg-rose-500",
+    softAccent: "bg-rose-500/10 text-rose-700 dark:text-rose-300",
+    side: "left",
   },
-  {
-    title: "I turn technical work into usable products",
-    description:
-      "Whether it is forecasting, research discovery, search ranking, or smart contracts, the goal is to make the technical system understandable and useful.",
-    Icon: Sparkles,
-  },
-]
-
-const proofProjects = projects.filter((project) => project.featured)
+] as const
 
 export function About() {
   return (
     <main className="min-h-[calc(100svh-4rem)]">
       <section className="px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-start">
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
-              A full-stack developer building practical software across web, AI,
-              data, and smart contracts.
+              A full-stack developer building practical software across web,
+              AI, data, and smart contracts.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
               I am a final-year Computer Science with Artificial Intelligence
-              student at the University of Leeds. I am drawn to projects where
-              the interesting part is making the whole system work: product
-              flow, backend logic, data, model behaviour, deployment, and the
-              small details users actually notice.
+              student at the University of Leeds. I like projects where the
+              interesting part is making the whole system work: product flow,
+              backend logic, data, model behaviour, deployment, and the small
+              details users actually notice.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
@@ -167,22 +155,42 @@ export function About() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.42, ease: "easeOut", delay: 0.08 }}
-            className="grid gap-3"
-            aria-label="Profile highlights"
+            aria-label="Profile snapshot"
           >
-            {proofStats.map((stat) => (
-              <Card key={stat.label} className="rounded-lg" size="sm">
-                <CardHeader>
-                  <CardDescription>{stat.label}</CardDescription>
-                  <CardTitle aria-level={2} role="heading">
-                    {stat.value}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="text-sm leading-6 text-muted-foreground">
-                  {stat.detail}
-                </CardContent>
-              </Card>
-            ))}
+            <Card className="rounded-lg">
+              <CardContent className="pt-0">
+                <div className="overflow-hidden rounded-lg border border-border bg-muted/50">
+                  <img
+                    src={profile.profileImage.src}
+                    alt={profile.profileImage.alt}
+                    className="aspect-square size-full object-cover object-center"
+                  />
+                </div>
+                <div className="mt-4">
+                  <h2 className="text-xl font-semibold tracking-normal">
+                    {profile.name}
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {profile.summary}
+                  </p>
+                </div>
+                <div className="mt-4 grid gap-2">
+                  {snapshotItems.map((item) => (
+                    <div
+                      key={item.label}
+                      className="flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2"
+                    >
+                      <span className="text-xs text-muted-foreground">
+                        {item.label}
+                      </span>
+                      <span className="text-right text-xs font-medium">
+                        {item.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </motion.aside>
         </div>
       </section>
@@ -203,188 +211,28 @@ export function About() {
             </p>
           </Reveal>
 
-          <motion.ol
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative mt-10 space-y-4 border-l border-border pl-5 sm:mt-12 sm:pl-7"
-          >
-            {timeline.map(({ date, title, meta, description, Icon }) => (
-              <motion.li
-                key={`${date}-${title}`}
-                variants={staggerItem}
-                className="relative list-none"
-              >
-                <div className="absolute -left-[1.0625rem] mt-4 grid size-8 place-items-center rounded-lg border border-border bg-background text-muted-foreground sm:-left-[1.3125rem] sm:size-10">
-                  <Icon className="size-4" aria-hidden="true" />
-                </div>
-                <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-                  <CardHeader className="gap-3 sm:flex sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <Badge variant="outline">{date}</Badge>
-                      <CardTitle
-                        aria-level={3}
-                        role="heading"
-                        className="mt-3"
-                      >
-                        {title}
-                      </CardTitle>
-                      <CardDescription className="mt-1">{meta}</CardDescription>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="text-sm leading-6 text-muted-foreground">
-                    {description}
-                  </CardContent>
-                </Card>
-              </motion.li>
-            ))}
-          </motion.ol>
-        </div>
-      </section>
+          <div className="relative mt-10 sm:mt-12">
+            <motion.div
+              aria-hidden="true"
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute bottom-0 left-4 top-0 w-px origin-top bg-gradient-to-b from-fuchsia-500 via-sky-500 to-rose-500 md:left-1/2"
+            />
 
-      <section className="border-t border-border/80 bg-muted/30 px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
-          <Reveal className="max-w-2xl">
-            <p className="text-sm font-medium text-muted-foreground">
-              How I Build
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
-              Product thinking with engineering discipline.
-            </h2>
-          </Reveal>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="mt-8 grid gap-4 md:grid-cols-3"
-          >
-            {workingStyle.map(({ title, description, Icon }) => (
-              <motion.div key={title} variants={staggerItem} whileHover={liftHover}>
-                <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-                  <CardHeader>
-                    <div className="grid size-9 place-items-center rounded-lg border border-border bg-background text-muted-foreground">
-                      <Icon className="size-4" aria-hidden="true" />
-                    </div>
-                    <CardTitle aria-level={3} role="heading">
-                      {title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="text-sm leading-6 text-muted-foreground">
-                    {description}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
-          <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">
-                Selected Proof
-              </p>
-              <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
-                Projects that show different sides of my work.
-              </h2>
-            </div>
-            <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
-              <Link to="/projects">
-                All projects
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </Button>
-          </Reveal>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="mt-8 grid gap-4 md:grid-cols-2"
-          >
-            {proofProjects.map((project) => (
-              <motion.div
-                key={project.slug}
-                variants={staggerItem}
-                whileHover={liftHover}
-              >
-                <Link
-                  to={`/projects/${project.slug}`}
-                  className="block h-full rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-                    <CardHeader>
-                      <Badge variant="outline">{project.category}</Badge>
-                      <CardTitle aria-level={3} role="heading">
-                        {project.title}
-                      </CardTitle>
-                      <CardDescription>{project.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2">
-                        {project.stack.slice(0, 5).map((item) => (
-                          <Badge key={item} variant="secondary">
-                            {item}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
-          <Reveal className="max-w-2xl">
-            <p className="text-sm font-medium text-muted-foreground">
-              Tech Stack
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
-              Tools I have used across coursework, projects, and commercial
-              work.
-            </h2>
-          </Reveal>
-
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
-            {skills.map((group) => (
-              <motion.div
-                key={group.category}
-                variants={staggerItem}
-                whileHover={liftHover}
-              >
-                <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
-                  <CardHeader>
-                    <CardTitle aria-level={3} role="heading">
-                      {group.category}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <Badge key={item} variant="secondary">
-                        {item}
-                      </Badge>
-                    ))}
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+            <motion.ol
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-80px" }}
+              className="grid gap-5"
+            >
+              {timeline.map((item) => (
+                <TimelineItem key={`${item.date}-${item.title}`} item={item} />
+              ))}
+            </motion.ol>
+          </div>
         </div>
       </section>
 
@@ -420,5 +268,57 @@ export function About() {
         </Reveal>
       </section>
     </main>
+  )
+}
+
+function TimelineItem({ item }: { item: (typeof timeline)[number] }) {
+  const Icon = item.Icon
+  const isLeft = item.side === "left"
+
+  return (
+    <motion.li
+      variants={staggerItem}
+      className="relative list-none md:grid md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:gap-5"
+    >
+      <div
+        className={cn(
+          "ml-12 md:ml-0",
+          isLeft ? "md:col-start-1" : "md:col-start-3",
+        )}
+      >
+        <Card className="rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+          <CardHeader>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge className={item.softAccent} variant="secondary">
+                {item.date}
+              </Badge>
+              <CardDescription>{item.meta}</CardDescription>
+            </div>
+            <CardTitle aria-level={3} role="heading">
+              {item.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="text-sm leading-6 text-muted-foreground">
+            {item.description}
+          </CardContent>
+        </Card>
+      </div>
+
+      <motion.div
+        initial={{ scale: 0.82 }}
+        whileInView={{ scale: [0.82, 1.08, 1] }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.48, ease: "easeOut" }}
+        className="absolute left-0 top-4 z-10 grid size-8 place-items-center rounded-lg border border-border bg-background shadow-sm md:static md:col-start-2 md:row-start-1 md:mt-4 md:size-10"
+      >
+        <span
+          className={cn(
+            "absolute inset-1 rounded-md opacity-15 blur-sm",
+            item.accent,
+          )}
+        />
+        <Icon className="relative size-4 text-foreground" aria-hidden="true" />
+      </motion.div>
+    </motion.li>
   )
 }

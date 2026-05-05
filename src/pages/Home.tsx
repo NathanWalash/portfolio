@@ -18,7 +18,6 @@ import {
 } from "@/components/animation/motionPresets"
 import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
 import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
-import { ProjectCard } from "@/components/projects/ProjectCard"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,7 +27,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { getFeaturedProjects } from "@/data/projects"
+import { getFeaturedProjects, type Project } from "@/data/projects"
 import { profile, type SocialLink } from "@/data/profile"
 import { skills } from "@/data/skills"
 import { cn } from "@/lib/utils"
@@ -242,18 +241,8 @@ export function Home() {
               </div>
             </div>
 
-            <div className="mt-5 grid grid-cols-2 gap-2">
-              {["Python", "TypeScript", "FastAPI", "Solidity"].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-center text-xs font-medium text-muted-foreground"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
             <div className="mt-5 grid gap-2">
+              <SocialButton icon="mail" social={profile.socials.email} />
               <SocialButton icon="code" social={profile.socials.github} />
               <SocialButton icon="external" social={profile.socials.linkedin} />
             </div>
@@ -308,10 +297,10 @@ export function Home() {
           <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-sm font-medium text-muted-foreground">
-                Featured Projects
+                Project Highlights
               </p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-normal sm:text-3xl">
-                APIs, search systems, forecasting products, and smart contracts.
+              <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
+                A quick route into the work behind the portfolio.
               </h2>
             </div>
             <Button asChild variant="outline" className="w-full min-[420px]:w-auto">
@@ -327,11 +316,15 @@ export function Home() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-80px" }}
-            className="mt-8 grid gap-4 lg:grid-cols-2"
+            className="mt-8 flex snap-x gap-4 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {featuredProjects.map((project) => (
-              <motion.div key={project.slug} variants={staggerItem}>
-                <ProjectCard project={project} headingLevel={3} />
+              <motion.div
+                key={project.slug}
+                variants={staggerItem}
+                className="min-w-[17rem] snap-start sm:min-w-[21rem] lg:min-w-[23rem]"
+              >
+                <CompactProjectCard project={project} />
               </motion.div>
             ))}
           </motion.div>
@@ -371,6 +364,31 @@ export function Home() {
         </div>
       </section>
     </main>
+  )
+}
+
+function CompactProjectCard({ project }: { project: Project }) {
+  return (
+    <Card className="h-full rounded-lg transition-shadow duration-200 hover:shadow-lg hover:shadow-foreground/5">
+      <CardHeader>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="outline">{project.category}</Badge>
+          <Badge variant="secondary">{project.stack[0]}</Badge>
+        </div>
+        <CardTitle aria-level={3} role="heading">
+          {project.title}
+        </CardTitle>
+        <CardDescription>{project.description}</CardDescription>
+      </CardHeader>
+      <CardContent className="mt-auto">
+        <Button asChild variant="outline" className="w-full">
+          <Link to={`/projects/${project.slug}`}>
+            View case study
+            <ArrowRight aria-hidden="true" />
+          </Link>
+        </Button>
+      </CardContent>
+    </Card>
   )
 }
 
