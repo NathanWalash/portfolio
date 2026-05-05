@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   BriefcaseBusiness,
+  Code2,
   Database,
   GraduationCap,
   Mail,
@@ -100,7 +101,7 @@ export function About() {
   return (
     <main className="min-h-[calc(100svh-4rem)]">
       <section className="px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto w-full max-w-6xl">
+        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
@@ -133,6 +134,52 @@ export function About() {
               </Button>
             </div>
           </Reveal>
+
+          <motion.aside
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.35 }}
+            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            aria-label="Development focus"
+          >
+            <Card className="relative isolate overflow-hidden rounded-lg">
+              <div className="absolute inset-0 -z-10 opacity-50 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.2)_1px,transparent_1.9px)] [background-size:18px_18px]" />
+              <CardHeader>
+                <div className="grid size-10 place-items-center rounded-lg border border-[oklch(0.62_0.2_305_/_0.22)] bg-background/80 text-muted-foreground backdrop-blur">
+                  <Code2 className="size-4" aria-hidden="true" />
+                </div>
+                <CardTitle aria-level={2} role="heading">
+                  Build loop
+                </CardTitle>
+                <CardDescription>
+                  The kind of work I enjoy moving through.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-2">
+                {["Design the flow", "Build the system", "Ship and improve"].map(
+                  (item, index) => (
+                    <motion.div
+                      key={item}
+                      initial={{ opacity: 0, x: -8 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.32,
+                        ease: [0.16, 1, 0.3, 1],
+                        delay: 0.1 + index * 0.07,
+                      }}
+                      className="flex items-center gap-3 rounded-lg border border-border bg-background/85 px-3 py-2 text-sm backdrop-blur"
+                    >
+                      <span className="grid size-6 shrink-0 place-items-center rounded-md bg-[oklch(0.62_0.2_305_/_0.1)] text-xs font-medium">
+                        {index + 1}
+                      </span>
+                      <span>{item}</span>
+                    </motion.div>
+                  ),
+                )}
+              </CardContent>
+            </Card>
+          </motion.aside>
         </div>
       </section>
 
