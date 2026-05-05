@@ -13,6 +13,7 @@ import { useRef } from "react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
+import { TypewriterText } from "@/components/animation/TypewriterText"
 import { staggerContainer } from "@/components/animation/motionPresets"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -103,7 +104,7 @@ export function About() {
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
-              About me.
+              <TypewriterText text="About me." characterDelay={0.035} />
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
               I am from Cambridge and now based in Leeds, where I study
