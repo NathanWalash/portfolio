@@ -4,6 +4,8 @@ import { motion } from "motion/react"
 import { type Project } from "@/data/projects"
 import { cn } from "@/lib/utils"
 
+const stackBarWidths = ["basis-16", "basis-20", "basis-14", "basis-24"]
+
 const visualStyles = {
   "Backend/API": {
     panel:
@@ -62,7 +64,7 @@ export function ProjectVisual({
   return (
     <div
       className={cn(
-        "relative isolate grid aspect-[16/9] place-items-center overflow-hidden bg-muted/40",
+        "relative isolate grid aspect-[4/3] place-items-center overflow-hidden bg-muted/40 min-[480px]:aspect-[16/9]",
         className,
       )}
     >
@@ -80,8 +82,8 @@ export function ProjectVisual({
           )}
         >
           <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:24px_24px] opacity-20" />
-          <div className="absolute inset-x-4 top-4 h-8 rounded-lg border border-border/80 bg-background/80 backdrop-blur" />
-          <div className="absolute left-7 top-7 flex gap-1.5">
+          <div className="absolute inset-x-3 top-3 h-7 rounded-lg border border-border/80 bg-background/80 backdrop-blur sm:inset-x-4 sm:top-4 sm:h-8" />
+          <div className="absolute left-6 top-[1.625rem] flex gap-1.5 sm:left-7 sm:top-7">
             <span className={cn("size-2 rounded-full", visual.accent)} />
             <span className={cn("size-2 rounded-full", visual.secondary)} />
             <span className="size-2 rounded-full bg-muted-foreground/30" />
@@ -92,7 +94,7 @@ export function ProjectVisual({
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="absolute inset-x-4 bottom-4 top-16 rounded-lg border border-border/80 bg-card/85 p-4 shadow-sm backdrop-blur"
+            className="absolute inset-x-3 bottom-3 top-12 rounded-lg border border-border/80 bg-card/85 p-3 shadow-sm backdrop-blur sm:inset-x-4 sm:bottom-4 sm:top-16 sm:p-4"
           >
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
@@ -111,20 +113,20 @@ export function ProjectVisual({
               </motion.div>
             </div>
 
-            <div className="mt-4 grid gap-2">
+            <div className="mt-3 grid gap-1.5 sm:mt-4 sm:gap-2">
               {visibleStack.map((item, index) => (
-                <div key={item} className="flex items-center gap-2">
+                <div
+                  key={item}
+                  className={cn(
+                    "flex min-w-0 items-center gap-2",
+                    index === 3 && "hidden min-[420px]:flex",
+                  )}
+                >
                   <motion.span
                     className={cn(
-                      "h-2 rounded-full",
+                      "h-2 shrink-0 rounded-full",
                       index % 2 === 0 ? visual.accent : visual.secondary,
-                      index === 0
-                        ? "w-1/2"
-                        : index === 1
-                          ? "w-2/3"
-                          : index === 2
-                            ? "w-5/12"
-                            : "w-7/12",
+                      stackBarWidths[index],
                     )}
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
