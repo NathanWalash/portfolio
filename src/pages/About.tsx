@@ -4,7 +4,6 @@ import {
   Database,
   GraduationCap,
   Mail,
-  MapPin,
   Network,
   Sparkles,
   Trophy,
@@ -100,7 +99,7 @@ export function About() {
   return (
     <main className="min-h-[calc(100svh-4rem)]">
       <section className="px-4 py-12 sm:px-8 sm:py-16">
-        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+        <div className="mx-auto w-full max-w-6xl">
           <Reveal>
             <p className="text-sm font-medium text-muted-foreground">About</p>
             <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal sm:text-5xl">
@@ -109,9 +108,8 @@ export function About() {
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
               I am from Cambridge and now based in Leeds, where I study
               Computer Science with Artificial Intelligence at the University of
-              Leeds. I like building full-stack software where the product flow,
-              backend logic, data, deployment, and small user-facing details all
-              have to come together properly.
+              Leeds. I have a passion for full-stack software engineering, both
+              as a hobby and professionally.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
@@ -134,44 +132,6 @@ export function About() {
               </Button>
             </div>
           </Reveal>
-
-          <motion.aside
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            aria-label="About summary"
-          >
-            <Card className="relative isolate overflow-hidden rounded-lg">
-              <div className="absolute inset-0 -z-10 opacity-55 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.18)_1px,transparent_1.9px)] [background-size:18px_18px]" />
-              <CardHeader>
-                <CardDescription>Current base</CardDescription>
-                <CardTitle
-                  aria-level={2}
-                  role="heading"
-                  className="flex items-center gap-2"
-                >
-                  <MapPin className="size-4 text-muted-foreground" aria-hidden="true" />
-                  Cambridge to Leeds
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                {[
-                  ["Studying", "BSc Computer Science with AI"],
-                  ["Building", "Full-stack apps, APIs, ML products"],
-                  ["Looking for", "Software engineering roles"],
-                ].map(([label, value]) => (
-                  <div
-                    key={label}
-                    className="flex items-center justify-between gap-3 rounded-lg border border-border bg-background/80 px-3 py-2 backdrop-blur"
-                  >
-                    <span className="text-muted-foreground">{label}</span>
-                    <span className="text-right font-medium">{value}</span>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </motion.aside>
         </div>
       </section>
 
