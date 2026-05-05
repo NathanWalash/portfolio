@@ -1,4 +1,4 @@
-import { Code2, ExternalLink } from "lucide-react"
+import { Code2, ExternalLink, Mail } from "lucide-react"
 import { Link } from "react-router-dom"
 
 import { profile, type SocialLink } from "@/data/profile"
@@ -18,6 +18,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
+          <FooterSocial icon="mail" social={profile.socials.email} />
           <FooterSocial icon="code" social={profile.socials.github} />
           <FooterSocial icon="external" social={profile.socials.linkedin} />
         </div>
@@ -30,10 +31,10 @@ function FooterSocial({
   icon,
   social,
 }: {
-  icon: "code" | "external"
+  icon: "code" | "external" | "mail"
   social: SocialLink
 }) {
-  const Icon = icon === "code" ? Code2 : ExternalLink
+  const Icon = icon === "code" ? Code2 : icon === "mail" ? Mail : ExternalLink
   const className =
     "inline-flex items-center gap-2 rounded-lg px-2 py-1 transition-colors focus-visible:ring-3 focus-visible:ring-ring/50"
   const content = (

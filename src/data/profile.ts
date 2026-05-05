@@ -1,7 +1,7 @@
 import profileImageSrc from "@/assets/pfp.jpg"
 
 export type SocialLink = {
-  label: "GitHub" | "LinkedIn"
+  label: "GitHub" | "LinkedIn" | "Email"
   href: string
   external?: boolean
 }
@@ -14,7 +14,7 @@ export const profile = {
   summary:
     "Final-year Computer Science with AI student building practical software across full-stack web, APIs, machine learning, and smart contracts.",
   contactNote:
-    "Reach me through LinkedIn or GitHub for professional contact.",
+    "Reach me by email, LinkedIn, or GitHub for professional contact.",
   highlights: [
     "BSc Computer Science with Artificial Intelligence at the University of Leeds",
     "Predicted First Class",
@@ -36,6 +36,10 @@ export const profile = {
       href: "https://www.linkedin.com/in/nathan-walsh1/",
       external: true,
     },
+    email: {
+      label: "Email",
+      href: "mailto:hello@nathanwalsh.me",
+    },
   },
 } satisfies {
   name: string
@@ -52,5 +56,6 @@ export const profile = {
   socials: {
     github: SocialLink
     linkedin: SocialLink
+    email: SocialLink
   }
 }

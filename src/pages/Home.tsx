@@ -362,6 +362,7 @@ export function Home() {
                 <CardDescription>Best places to find me online.</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-2">
+                <SocialButton icon="mail" social={profile.socials.email} />
                 <SocialButton icon="code" social={profile.socials.github} />
                 <SocialButton icon="external" social={profile.socials.linkedin} />
               </CardContent>
@@ -377,10 +378,10 @@ function SocialButton({
   icon,
   social,
 }: {
-  icon: "code" | "external"
+  icon: "code" | "external" | "mail"
   social: SocialLink
 }) {
-  const Icon = icon === "code" ? Code2 : ExternalLink
+  const Icon = icon === "code" ? Code2 : icon === "mail" ? Mail : ExternalLink
   const content = (
     <>
       <Icon aria-hidden="true" />
