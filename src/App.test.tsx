@@ -14,7 +14,7 @@ function renderRoute(route: string) {
 }
 
 describe("App routing", () => {
-  it("renders the app shell and home route", () => {
+  it("renders the app shell and home route", async () => {
     renderRoute("/")
 
     expect(
@@ -42,15 +42,15 @@ describe("App routing", () => {
       "https://github.com/NathanWalash",
     )
     expect(
-      screen.getByRole("heading", { name: /research assistant api/i }),
+      await screen.findByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
   })
 
-  it("renders a data-driven project detail route", () => {
+  it("renders a data-driven project detail route", async () => {
     renderRoute("/projects/research-assistant-api")
 
     expect(
-      screen.getByRole("heading", { name: /research assistant api/i }),
+      await screen.findByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
     expect(screen.getByRole("heading", { name: /overview/i })).toBeInTheDocument()
     expect(screen.getByRole("link", { name: /source/i })).toHaveAttribute(
@@ -65,7 +65,7 @@ describe("App routing", () => {
     renderRoute("/projects")
 
     expect(
-      screen.getByRole("heading", { name: /research assistant api/i }),
+      await screen.findByRole("heading", { name: /research assistant api/i }),
     ).toBeInTheDocument()
 
     await user.click(screen.getByRole("tab", { name: /blockchain/i }))
@@ -80,13 +80,13 @@ describe("App routing", () => {
     })
   })
 
-  it("renders a helpful not found route", () => {
+  it("renders a helpful not found route", async () => {
     renderRoute("/does-not-exist")
-    const main = within(screen.getByRole("main"))
 
     expect(
-      screen.getByRole("heading", { name: /page not found/i }),
+      await screen.findByRole("heading", { name: /page not found/i }),
     ).toBeInTheDocument()
+    const main = within(screen.getByRole("main"))
     expect(main.getByRole("link", { name: /^home$/i })).toHaveAttribute(
       "href",
       "/",

@@ -11,7 +11,13 @@ import {
   Sparkles,
 } from "lucide-react"
 import { motion } from "motion/react"
-import { useEffect, useRef, type CSSProperties, type PointerEvent } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  type CSSProperties,
+  type PointerEvent,
+} from "react"
 import { Link } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
@@ -36,6 +42,8 @@ import {
 import { getFeaturedProjects, type Project } from "@/data/projects"
 import { profile, type SocialLink } from "@/data/profile"
 import { skills } from "@/data/skills"
+import { useDeferredMount } from "@/hooks/useDeferredMount"
+import { useInitialReveal } from "@/hooks/useInitialReveal"
 import { cn } from "@/lib/utils"
 
 const featuredProjects = getFeaturedProjects()
@@ -108,8 +116,11 @@ function applyHeroPointer(element: HTMLElement | null, pointer: PointerPosition)
 }
 
 export function Home() {
+  const initialRevealReady = useInitialReveal()
+  const showDeferredSections = useDeferredMount(initialRevealReady)
   const heroRef = useRef<HTMLElement>(null)
   const lastPointerRef = useRef<PointerPosition | null>(null)
+  const heroFrameRef = useRef<number | null>(null)
   const heroStyle = {
     "--hero-x": "58%",
     "--hero-y": "38%",
@@ -121,8 +132,17 @@ export function Home() {
     "--hero-near-y": "0px",
   } as CSSProperties
 
-  useEffect(() => {
-    function handleScroll() {
+  const scheduleHeroBackgroundUpdate = useCallback(() => {
+    if (!initialRevealReady) {
+      return
+    }
+
+    if (heroFrameRef.current !== null) {
+      return
+    }
+
+    heroFrameRef.current = window.requestAnimationFrame(() => {
+      heroFrameRef.current = null
       const pointer = lastPointerRef.current
 
       if (!pointer) {
@@ -130,26 +150,48 @@ export function Home() {
         return
       }
 
-      window.requestAnimationFrame(() => {
-        applyHeroPointer(heroRef.current, pointer)
-      })
+      applyHeroPointer(heroRef.current, pointer)
+    })
+  }, [initialRevealReady])
+
+  useEffect(() => {
+    if (!initialRevealReady) {
+      return
+    }
+
+    function handleScroll() {
+      scheduleHeroBackgroundUpdate()
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+
+      if (heroFrameRef.current !== null) {
+        window.cancelAnimationFrame(heroFrameRef.current)
+      }
+    }
+  }, [initialRevealReady, scheduleHeroBackgroundUpdate])
 
   function handleHeroPointerMove(event: PointerEvent<HTMLElement>) {
+    if (!initialRevealReady) {
+      return
+    }
+
     lastPointerRef.current = {
       clientX: event.clientX,
       clientY: event.clientY,
     }
-    applyHeroPointer(event.currentTarget, lastPointerRef.current)
+    scheduleHeroBackgroundUpdate()
   }
 
-  function handleHeroPointerLeave(event: PointerEvent<HTMLElement>) {
+  function handleHeroPointerLeave() {
+    if (!initialRevealReady) {
+      return
+    }
+
     lastPointerRef.current = null
-    resetHeroBackground(event.currentTarget)
+    scheduleHeroBackgroundUpdate()
   }
 
   function handleHeroPointerEnd(event: PointerEvent<HTMLElement>) {
@@ -157,8 +199,12 @@ export function Home() {
       return
     }
 
+    if (!initialRevealReady) {
+      return
+    }
+
     lastPointerRef.current = null
-    resetHeroBackground(event.currentTarget)
+    scheduleHeroBackgroundUpdate()
   }
 
   return (
@@ -172,16 +218,7 @@ export function Home() {
         onPointerUp={handleHeroPointerEnd}
         onPointerCancel={handleHeroPointerEnd}
         onWheel={() => {
-          const pointer = lastPointerRef.current
-
-          if (!pointer) {
-            resetHeroBackground(heroRef.current)
-            return
-          }
-
-          window.requestAnimationFrame(() => {
-            applyHeroPointer(heroRef.current, pointer)
-          })
+          scheduleHeroBackgroundUpdate()
         }}
         className="relative isolate overflow-hidden"
       >
@@ -189,9 +226,9 @@ export function Home() {
         <div className="mx-auto grid min-h-[calc(100svh-4rem)] w-full max-w-6xl items-center gap-8 px-4 py-10 sm:px-8 sm:py-16 lg:grid-cols-[minmax(0,1fr)_23rem]">
           <motion.div
             initial="hidden"
-            animate="show"
+            animate={initialRevealReady ? "show" : "hidden"}
             variants={staggerContainer}
-            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md sm:p-7"
+            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md will-change-[transform,opacity] sm:p-7"
           >
             <motion.div
               variants={staggerItem}
@@ -203,9 +240,13 @@ export function Home() {
 
             <motion.h1
               variants={staggerItem}
-              className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
-            >
-              <TypewriterText text={profile.name} />
+            className="text-balance text-4xl font-semibold tracking-normal text-foreground sm:text-6xl"
+          >
+              <TypewriterText
+                text={profile.name}
+                delay={0.12}
+                play={initialRevealReady}
+              />
             </motion.h1>
 
             <motion.p
@@ -257,10 +298,14 @@ export function Home() {
           <motion.aside
             aria-label="Profile snapshot"
             initial={{ opacity: 0, scale: 0.96, y: 14 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            animate={
+              initialRevealReady
+                ? { opacity: 1, scale: 1, y: 0 }
+                : { opacity: 0, scale: 0.96, y: 14 }
+            }
             transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
             whileHover={liftHover}
-            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur lg:mx-0"
+            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur will-change-[transform,opacity] lg:mx-0"
           >
             <ProfileSystemPanel />
 
@@ -283,6 +328,47 @@ export function Home() {
         </div>
       </section>
 
+      {showDeferredSections ? <DeferredHomeSections /> : null}
+
+      <section
+        id="contact"
+        className="border-t border-border/80 bg-muted/30 px-4 py-12 sm:px-8 sm:py-16"
+      >
+        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
+          <Reveal>
+            <p className="text-sm font-medium text-muted-foreground">Contact</p>
+            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
+              Open to software engineering and full-stack opportunities.
+            </h2>
+            <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
+              {profile.contactNote}
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.08}>
+            <Card className="rounded-lg">
+              <CardHeader>
+                <CardTitle aria-level={3} role="heading">
+                  Contact Nathan
+                </CardTitle>
+                <CardDescription>Best places to find me online.</CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-2">
+                <SocialButton icon="mail" social={profile.socials.email} />
+                <SocialButton icon="code" social={profile.socials.github} />
+                <SocialButton icon="external" social={profile.socials.linkedin} />
+              </CardContent>
+            </Card>
+          </Reveal>
+        </div>
+      </section>
+    </main>
+  )
+}
+
+function DeferredHomeSections() {
+  return (
+    <>
       <section className="border-t border-border/80 px-4 py-12 sm:px-8 sm:py-16">
         <div className="mx-auto w-full max-w-6xl">
           <Reveal className="max-w-2xl">
@@ -349,46 +435,13 @@ export function Home() {
           </motion.div>
         </div>
       </section>
-
-      <section
-        id="contact"
-        className="border-t border-border/80 bg-muted/30 px-4 py-12 sm:px-8 sm:py-16"
-      >
-        <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[minmax(0,1fr)_24rem]">
-          <Reveal>
-            <p className="text-sm font-medium text-muted-foreground">Contact</p>
-            <h2 className="mt-3 max-w-2xl text-2xl font-semibold tracking-normal sm:text-3xl">
-              Open to software engineering and full-stack opportunities.
-            </h2>
-            <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
-              {profile.contactNote}
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.08}>
-            <Card className="rounded-lg">
-              <CardHeader>
-                <CardTitle aria-level={3} role="heading">
-                  Contact Nathan
-                </CardTitle>
-                <CardDescription>Best places to find me online.</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-2">
-                <SocialButton icon="mail" social={profile.socials.email} />
-                <SocialButton icon="code" social={profile.socials.github} />
-                <SocialButton icon="external" social={profile.socials.linkedin} />
-              </CardContent>
-            </Card>
-          </Reveal>
-        </div>
-      </section>
-    </main>
+    </>
   )
 }
 
 function CompactProjectCard({ project }: { project: Project }) {
   return (
-    <TiltCard>
+    <TiltCard reveal={false}>
       <Card className="group relative isolate h-full overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-xl hover:shadow-[oklch(0.62_0.2_305_/_0.12)]">
         <div className="absolute inset-0 -z-10 opacity-60 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.15)_1px,transparent_1.8px)] [background-size:18px_18px]" />
         <CardHeader>
@@ -454,7 +507,7 @@ function SkillClusterCard({
   const Icon = visual.Icon
 
   return (
-    <TiltCard>
+    <TiltCard reveal={false}>
       <Card className="group relative isolate h-full overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-xl hover:shadow-[oklch(0.62_0.2_305_/_0.1)]">
         <div className="absolute inset-0 -z-10 opacity-45 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.18)_1px,transparent_1.9px)] [background-size:20px_20px]" />
         <div className="absolute inset-x-4 top-0 h-px origin-left scale-x-0 bg-[oklch(0.62_0.2_305)] transition-transform duration-300 group-hover:scale-x-100" />
