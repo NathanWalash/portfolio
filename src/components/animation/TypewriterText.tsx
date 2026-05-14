@@ -7,11 +7,13 @@ export function TypewriterText({
   className,
   delay = 0.2,
   characterDelay = 0.045,
+  play = true,
 }: {
   text: string
   className?: string
   delay?: number
   characterDelay?: number
+  play?: boolean
 }) {
   const reducedMotion = useReducedMotion()
 
@@ -27,11 +29,11 @@ export function TypewriterText({
           <motion.span
             key={`${character}-${index}`}
             initial={{ opacity: 0, y: "0.18em" }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={play ? { opacity: 1, y: 0 } : { opacity: 0, y: "0.18em" }}
             transition={{
               duration: 0.18,
               ease: [0.16, 1, 0.3, 1],
-              delay: delay + index * characterDelay,
+              delay: play ? delay + index * characterDelay : 0,
             }}
             className="inline-block"
           >
@@ -40,12 +42,12 @@ export function TypewriterText({
         ))}
         <motion.span
           initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 1, 0] }}
+          animate={{ opacity: play ? [0, 1, 0] : 0 }}
           transition={{
             duration: 0.9,
-            repeat: Infinity,
+            repeat: play ? Infinity : 0,
             ease: "easeInOut",
-            delay: delay + text.length * characterDelay,
+            delay: play ? delay + text.length * characterDelay : 0,
           }}
           className="ml-1 inline-block h-[0.82em] w-[0.08em] translate-y-[0.08em] rounded-full bg-[oklch(0.62_0.2_305)]"
         />

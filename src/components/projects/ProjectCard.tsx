@@ -25,7 +25,7 @@ export function ProjectCard({
   const remainingStackCount = project.stack.length - visibleStack.length
 
   return (
-    <TiltCard>
+    <TiltCard reveal={false}>
       <Card className="group relative isolate h-full overflow-hidden rounded-lg transition-shadow duration-200 hover:shadow-xl hover:shadow-[oklch(0.62_0.2_305_/_0.1)]">
         <div className="absolute inset-x-4 top-0 z-10 h-px origin-left scale-x-0 bg-[oklch(0.62_0.2_305)] transition-transform duration-300 group-hover:scale-x-100" />
         <ProjectVisual project={project} className="border-b border-border" />

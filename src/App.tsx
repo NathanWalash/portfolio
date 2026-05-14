@@ -1,24 +1,68 @@
+import { lazy, Suspense } from "react"
 import { Route, Routes } from "react-router-dom"
 
 import { SiteLayout } from "@/components/layout/SiteLayout"
-import { About } from "@/pages/About"
 import { Home } from "@/pages/Home"
-import { NotFound } from "@/pages/NotFound"
-import { ProjectDetail } from "@/pages/ProjectDetail"
-import { Projects } from "@/pages/Projects"
+
+const About = lazy(() =>
+  import("@/pages/About").then((module) => ({ default: module.About })),
+)
+const Projects = lazy(() =>
+  import("@/pages/Projects").then((module) => ({ default: module.Projects })),
+)
+const ProjectDetail = lazy(() =>
+  import("@/pages/ProjectDetail").then((module) => ({
+    default: module.ProjectDetail,
+  })),
+)
+const NotFound = lazy(() =>
+  import("@/pages/NotFound").then((module) => ({ default: module.NotFound })),
+)
 
 function App() {
   return (
     <Routes>
       <Route element={<SiteLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:slug" element={<ProjectDetail />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <About />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <Projects />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/projects/:slug"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <ProjectDetail />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<RouteFallback />}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   )
+}
+
+function RouteFallback() {
+  return <main className="min-h-[calc(100svh-4rem)]" />
 }
 
 export default App
