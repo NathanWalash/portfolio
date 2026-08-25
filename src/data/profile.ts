@@ -17,9 +17,9 @@ export const profile = {
     "Reach me by email, LinkedIn, or GitHub for professional contact.",
   highlights: [
     "Software Developer at Parallax",
-    "First Class Honours BSc in Computer Science with Artificial Intelligence, University of Leeds",
+    "First Class BSc in Computer Science with AI",
     "Leeds Hackathon winner in 2025 and 2026",
-    "Experience across React, TypeScript, Node.js, Python, Solidity, and Laravel",
+    "React, TypeScript, Node.js, Python, Solidity",
   ],
   profileImage: {
     src: profileImageSrc,

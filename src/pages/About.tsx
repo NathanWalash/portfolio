@@ -1,6 +1,7 @@
 import {
   ArrowRight,
   BriefcaseBusiness,
+  Check,
   Code2,
   Database,
   GraduationCap,
@@ -149,7 +150,7 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            aria-label="Development focus"
+            aria-label="Profile highlights"
           >
             <Card className="relative isolate overflow-hidden rounded-lg">
               <div className="absolute inset-0 -z-10 opacity-50 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.2)_1px,transparent_1.9px)] [background-size:18px_18px]" />
@@ -158,14 +159,14 @@ export function About() {
                   <Code2 className="size-4" aria-hidden="true" />
                 </div>
                 <CardTitle aria-level={2} role="heading">
-                  Build loop
+                  At a glance
                 </CardTitle>
                 <CardDescription>
-                  The kind of work I enjoy moving through.
+                  Where I am now and what I have built so far.
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-2">
-                {["Design the flow", "Build the system", "Ship and improve"].map(
+                {profile.highlights.map(
                   (item, index) => (
                     <motion.div
                       key={item}
@@ -177,10 +178,10 @@ export function About() {
                         ease: [0.16, 1, 0.3, 1],
                         delay: 0.1 + index * 0.07,
                       }}
-                      className="flex items-center gap-3 rounded-lg border border-border bg-background/85 px-3 py-2 text-sm backdrop-blur"
+                      className="flex items-start gap-3 rounded-lg border border-border bg-background/85 px-3 py-2 text-sm leading-6 backdrop-blur"
                     >
-                      <span className="grid size-6 shrink-0 place-items-center rounded-md bg-[oklch(0.62_0.2_305_/_0.1)] text-xs font-medium">
-                        {index + 1}
+                      <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-md bg-[oklch(0.62_0.2_305_/_0.1)]">
+                        <Check className="size-3.5" aria-hidden="true" />
                       </span>
                       <span>{item}</span>
                     </motion.div>
