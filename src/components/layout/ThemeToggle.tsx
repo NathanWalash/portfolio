@@ -26,7 +26,14 @@ export function ThemeToggle() {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDark)
-    localStorage.setItem("portfolio-theme", isDark ? "dark" : "light")
+
+    try {
+      localStorage.setItem("portfolio-theme", isDark ? "dark" : "light")
+    } catch {
+      // Storage is unavailable in private browsing and in runtimes that do
+      // not provide it. The theme still applies, it just will not persist.
+    }
+
     setThemeColor(isDark)
   }, [isDark])
 
