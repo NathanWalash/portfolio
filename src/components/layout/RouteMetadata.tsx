@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom"
 import { getProjectBySlug } from "@/data/projects"
 
 const siteUrl = "https://www.nathanwalsh.me"
-const previewImage = `${siteUrl}/og-image.svg`
+const previewImage = `${siteUrl}/og-image.png`
 
 function setNamedMeta(name: string, content: string) {
   let meta = document.head.querySelector<HTMLMetaElement>(
