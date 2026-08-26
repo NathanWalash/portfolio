@@ -1,4 +1,4 @@
-import profileImageSrc from "@/assets/pfp.jpg"
+import profileImageSrc from "@/assets/pfp.webp"
 
 export type SocialLink = {
   label: string

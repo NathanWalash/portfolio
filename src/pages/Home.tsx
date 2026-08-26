@@ -29,7 +29,7 @@ import {
 import { TiltCard } from "@/components/animation/TiltCard"
 import { TypewriterText } from "@/components/animation/TypewriterText"
 import { InteractiveHeroBackground } from "@/components/home/InteractiveHeroBackground"
-import { ProfileSystemPanel } from "@/components/home/ProfileSystemPanel"
+import { ProfilePhoto } from "@/components/home/ProfilePhoto"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -307,7 +307,7 @@ export function Home() {
             whileHover={liftHover}
             className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur will-change-[transform,opacity] lg:mx-0"
           >
-            <ProfileSystemPanel />
+            <ProfilePhoto />
 
             <div className="mt-5">
               <h2 className="text-xl font-semibold tracking-normal">
