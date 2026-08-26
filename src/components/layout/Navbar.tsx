@@ -21,9 +21,6 @@ export function Navbar() {
           className="inline-flex min-w-0 items-center gap-2 rounded-lg text-sm font-semibold tracking-normal text-foreground outline-none transition-colors hover:text-muted-foreground focus-visible:ring-3 focus-visible:ring-ring/50 sm:mr-auto"
           aria-label="Home"
         >
-          <span className="grid size-8 place-items-center rounded-lg border border-border bg-card">
-            <Code2 className="size-4" aria-hidden="true" />
-          </span>
           <span className="truncate">{profile.name}</span>
         </Link>
 
