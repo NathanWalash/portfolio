@@ -67,7 +67,7 @@ function getRouteMetadata(pathname: string) {
     return {
       title: "About | Nathan Walsh",
       description:
-        "Learn more about Nathan Walsh, a full-stack developer from Cambridge based in Leeds, studying Computer Science with Artificial Intelligence.",
+        "Learn more about Nathan Walsh, a full-stack developer from Cambridge based in Leeds, working as a Software Developer at Parallax after graduating in Computer Science with Artificial Intelligence.",
       path: "/about",
     }
   }

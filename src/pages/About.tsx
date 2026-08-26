@@ -29,6 +29,14 @@ import { profile } from "@/data/profile"
 
 const timeline = [
   {
+    date: "2026 - present",
+    title: "Software Developer",
+    meta: "Parallax",
+    description:
+      "Working as a software engineer at a digital consultancy, in agile teams across a changing mix of client projects, languages, and stacks.",
+    Icon: BriefcaseBusiness,
+  },
+  {
     date: "2026",
     title: "Final-year machine learning project",
     meta: "University of Leeds",
@@ -70,10 +78,10 @@ const timeline = [
   },
   {
     date: "2023 - 2026",
-    title: "Computer Science with Artificial Intelligence",
+    title: "BSc Computer Science with Artificial Intelligence",
     meta: "University of Leeds",
     description:
-      "Studying software engineering, algorithms and data structures, AI and machine learning, databases, operating systems, networks, secure computing, robotics, and graphics.",
+      "Graduated with First Class Honours, covering software engineering, algorithms and data structures, AI and machine learning, databases, operating systems, networks, secure computing, robotics, and graphics.",
     Icon: GraduationCap,
   },
   {
@@ -108,10 +116,11 @@ export function About() {
               <TypewriterText text="About me." characterDelay={0.035} />
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:mt-6 sm:text-lg sm:leading-8">
-              I am from Cambridge and now based in Leeds, where I study
-              Computer Science with Artificial Intelligence at the University of
-              Leeds. I have a passion for full-stack software engineering, both
-              as a hobby and professionally.
+              I am from Cambridge and now based in Leeds, where I work as a
+              Software Developer at Parallax. I graduated from the University of
+              Leeds with a First Class Honours degree in Computer Science with
+              Artificial Intelligence. I have a passion for full-stack software
+              engineering, both as a hobby and professionally.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
@@ -140,7 +149,7 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.35 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            aria-label="Development focus"
+            aria-label="Profile highlights"
           >
             <Card className="relative isolate overflow-hidden rounded-lg">
               <div className="absolute inset-0 -z-10 opacity-50 [background-image:radial-gradient(circle,oklch(0.62_0.2_305_/_0.2)_1px,transparent_1.9px)] [background-size:18px_18px]" />
@@ -149,14 +158,14 @@ export function About() {
                   <Code2 className="size-4" aria-hidden="true" />
                 </div>
                 <CardTitle aria-level={2} role="heading">
-                  Build loop
+                  At a glance
                 </CardTitle>
                 <CardDescription>
-                  The kind of work I enjoy moving through.
+                  Where I am now and what I have built so far.
                 </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-2">
-                {["Design the flow", "Build the system", "Ship and improve"].map(
+                {profile.highlights.map(
                   (item, index) => (
                     <motion.div
                       key={item}
@@ -168,12 +177,9 @@ export function About() {
                         ease: [0.16, 1, 0.3, 1],
                         delay: 0.1 + index * 0.07,
                       }}
-                      className="flex items-center gap-3 rounded-lg border border-border bg-background/85 px-3 py-2 text-sm backdrop-blur"
+                      className="rounded-lg border border-border bg-background/85 px-3 py-2 text-sm leading-6 backdrop-blur"
                     >
-                      <span className="grid size-6 shrink-0 place-items-center rounded-md bg-[oklch(0.62_0.2_305_/_0.1)] text-xs font-medium">
-                        {index + 1}
-                      </span>
-                      <span>{item}</span>
+                      {item}
                     </motion.div>
                   ),
                 )}

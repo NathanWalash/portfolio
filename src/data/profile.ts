@@ -12,14 +12,14 @@ export const profile = {
   title: "Full-Stack Developer",
   location: "United Kingdom",
   summary:
-    "Full-stack developer and final-year Computer Science with Artificial Intelligence student building practical software across web apps, backend systems, data workflows, and AI-assisted products.",
+    "Full-stack developer building practical software across web apps, backend systems, data workflows, and AI-assisted products. Currently a Software Developer at Parallax and a Computer Science with Artificial Intelligence graduate of the University of Leeds.",
   contactNote:
     "Reach me by email, LinkedIn, or GitHub for professional contact.",
   highlights: [
-    "BSc Computer Science with Artificial Intelligence at the University of Leeds",
-    "Predicted First Class",
+    "Software Developer at Parallax",
+    "First Class BSc in Computer Science with AI",
     "Leeds Hackathon winner in 2025 and 2026",
-    "Junior Software Developer experience across React, Node.js, Solidity, Laravel, and databases",
+    "React, TypeScript, Node.js, Python, Solidity",
   ],
   profileImage: {
     src: profileImageSrc,
