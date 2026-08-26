@@ -21,6 +21,12 @@ export function SiteLayout() {
       <RouteMetadata />
       <RouteScrollManager />
       <ScrollProgress />
+      <a
+        href="#main-content"
+        className="sr-only rounded-lg bg-background px-4 py-2 text-sm font-medium text-foreground ring-2 ring-ring focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50"
+      >
+        Skip to content
+      </a>
       <Navbar />
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
@@ -29,6 +35,7 @@ export function SiteLayout() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.24, ease: pageTransitionEase }}
+          id="main-content"
         >
           {outlet}
         </motion.div>
@@ -56,13 +63,19 @@ function RouteScrollManager() {
 
       document
         .getElementById(decodeURIComponent(hash.slice(1)))
-        ?.scrollIntoView({ behavior: "smooth", block: "start" })
+        ?.scrollIntoView({ behavior: scrollBehavior(), block: "start" })
     })
 
     return () => window.cancelAnimationFrame(frame)
   }, [hash, navigationType, pathname, search])
 
   return null
+}
+
+function scrollBehavior(): ScrollBehavior {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth"
 }
 
 function scrollToPageTop() {
