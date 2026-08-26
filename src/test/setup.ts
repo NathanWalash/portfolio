@@ -35,6 +35,11 @@ class MockIntersectionObserver implements IntersectionObserver {
 
 globalThis.IntersectionObserver = MockIntersectionObserver
 
+// jsdom does not implement scrolling; stub it so production code can call the
+// real API without branching on the environment.
+window.scrollTo = () => undefined
+Element.prototype.scrollIntoView = () => undefined
+
 afterEach(() => {
   cleanup()
 })
