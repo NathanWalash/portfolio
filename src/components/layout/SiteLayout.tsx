@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { AnimatePresence, motion } from "motion/react"
-import { Outlet, useLocation } from "react-router-dom"
+import { useLocation, useNavigationType, useOutlet } from "react-router-dom"
 
 import { Footer } from "@/components/layout/Footer"
 import { Navbar } from "@/components/layout/Navbar"
@@ -11,6 +11,10 @@ const pageTransitionEase = [0.16, 1, 0.3, 1] as const
 
 export function SiteLayout() {
   const location = useLocation()
+  // Snapshot the route element. Rendering <Outlet /> here would let the
+  // exiting wrapper read live route context and animate the incoming page,
+  // which also remounts every route.
+  const outlet = useOutlet()
 
   return (
     <div className="min-h-svh bg-background text-foreground">
@@ -25,9 +29,8 @@ export function SiteLayout() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.24, ease: pageTransitionEase }}
-          className="will-change-[transform,opacity]"
         >
-          <Outlet />
+          {outlet}
         </motion.div>
       </AnimatePresence>
       <Footer />
@@ -37,14 +40,14 @@ export function SiteLayout() {
 
 function RouteScrollManager() {
   const { hash, pathname, search } = useLocation()
+  const navigationType = useNavigationType()
 
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual"
+    // On back and forward the browser restores the previous offset itself.
+    if (navigationType === "POP" && !hash) {
+      return
     }
-  }, [])
 
-  useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       if (!hash) {
         scrollToPageTop()
@@ -57,17 +60,11 @@ function RouteScrollManager() {
     })
 
     return () => window.cancelAnimationFrame(frame)
-  }, [hash, pathname, search])
+  }, [hash, navigationType, pathname, search])
 
   return null
 }
 
 function scrollToPageTop() {
-  if (navigator.userAgent.toLowerCase().includes("jsdom")) {
-    document.documentElement.scrollTop = 0
-    document.body.scrollTop = 0
-    return
-  }
-
   window.scrollTo({ top: 0, left: 0, behavior: "auto" })
 }
