@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   BriefcaseBusiness,
-  Check,
   Code2,
   Database,
   GraduationCap,
@@ -34,7 +33,7 @@ const timeline = [
     title: "Software Developer",
     meta: "Parallax",
     description:
-      "Working across the stack on production web software as part of a professional development team.",
+      "Working as a software engineer at a digital consultancy, in agile teams across a changing mix of client projects, languages, and stacks.",
     Icon: BriefcaseBusiness,
   },
   {
@@ -178,12 +177,9 @@ export function About() {
                         ease: [0.16, 1, 0.3, 1],
                         delay: 0.1 + index * 0.07,
                       }}
-                      className="flex items-start gap-3 rounded-lg border border-border bg-background/85 px-3 py-2 text-sm leading-6 backdrop-blur"
+                      className="rounded-lg border border-border bg-background/85 px-3 py-2 text-sm leading-6 backdrop-blur"
                     >
-                      <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-md bg-[oklch(0.62_0.2_305_/_0.1)]">
-                        <Check className="size-3.5" aria-hidden="true" />
-                      </span>
-                      <span>{item}</span>
+                      {item}
                     </motion.div>
                   ),
                 )}
