@@ -228,7 +228,7 @@ export function Home() {
             initial="hidden"
             animate={initialRevealReady ? "show" : "hidden"}
             variants={staggerContainer}
-            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md will-change-[transform,opacity] sm:p-7"
+            className="max-w-3xl rounded-lg border border-border bg-background/88 p-5 shadow-xl shadow-foreground/5 backdrop-blur-md sm:p-7"
           >
             <motion.div
               variants={staggerItem}
@@ -305,7 +305,7 @@ export function Home() {
             }
             transition={{ duration: 0.42, ease: "easeOut", delay: 0.14 }}
             whileHover={liftHover}
-            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur will-change-[transform,opacity] lg:mx-0"
+            className="mx-auto w-full max-w-sm rounded-lg border border-border bg-card/90 p-4 shadow-lg shadow-foreground/5 backdrop-blur lg:mx-0"
           >
             <ProfileSystemPanel />
 

@@ -56,7 +56,7 @@ export function TiltCard({
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
       style={reducedMotion ? undefined : { rotateX, rotateY, transformPerspective: 900 }}
-      className={cn("h-full transform-gpu will-change-transform", className)}
+      className={cn("h-full transform-gpu", className)}
     >
       {children}
     </motion.div>
