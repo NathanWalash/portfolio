@@ -42,7 +42,12 @@ describe("App routing", () => {
       "https://github.com/NathanWalash",
     )
     expect(
-      await screen.findByRole("heading", { name: /research assistant api/i }),
+      await screen.findByRole(
+        "heading",
+        { name: /research assistant api/i },
+        // Lives inside the deferred sections, which wait on idle time.
+        { timeout: 3000 },
+      ),
     ).toBeInTheDocument()
   })
 
