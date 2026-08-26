@@ -46,6 +46,21 @@ describe("App routing", () => {
     ).toBeInTheDocument()
   })
 
+  it("mounts the deferred home sections when arriving at an anchor", () => {
+    renderRoute("/#contact")
+
+    // These sections render above #contact. If they mount late they shove the
+    // anchor target down the page after the browser has already scrolled to it.
+    expect(
+      screen.getByRole("heading", {
+        name: /tools i use to move from idea to working software/i,
+      }),
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole("heading", { name: /a quick route into the work/i }),
+    ).toBeInTheDocument()
+  })
+
   it("renders a data-driven project detail route", async () => {
     renderRoute("/projects/research-assistant-api")
 

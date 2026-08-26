@@ -18,7 +18,7 @@ import {
   type CSSProperties,
   type PointerEvent,
 } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 import { Reveal } from "@/components/animation/Reveal"
 import {
@@ -117,7 +117,12 @@ function applyHeroPointer(element: HTMLElement | null, pointer: PointerPosition)
 
 export function Home() {
   const initialRevealReady = useInitialReveal()
-  const showDeferredSections = useDeferredMount(initialRevealReady)
+  const { hash } = useLocation()
+  // #contact sits below the deferred sections, so deferring them while the
+  // browser is scrolling to an anchor moves the target out from under it.
+  const showDeferredSections = useDeferredMount(initialRevealReady, {
+    immediate: Boolean(hash),
+  })
   const heroRef = useRef<HTMLElement>(null)
   const lastPointerRef = useRef<PointerPosition | null>(null)
   const heroFrameRef = useRef<number | null>(null)

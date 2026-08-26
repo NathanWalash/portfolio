@@ -1,7 +1,20 @@
 import { useEffect, useState } from "react"
 
-export function useDeferredMount(enabled: boolean, timeout = 650) {
-  const [shouldMount, setShouldMount] = useState(false)
+type DeferredMountOptions = {
+  timeout?: number
+  /**
+   * Mount on the first render instead of waiting for idle time. Use when
+   * something needs the full page height to be correct straight away, such as
+   * resolving a hash anchor that sits below the deferred content.
+   */
+  immediate?: boolean
+}
+
+export function useDeferredMount(
+  enabled: boolean,
+  { timeout = 650, immediate = false }: DeferredMountOptions = {},
+) {
+  const [shouldMount, setShouldMount] = useState(immediate)
 
   useEffect(() => {
     if (!enabled || shouldMount) {
